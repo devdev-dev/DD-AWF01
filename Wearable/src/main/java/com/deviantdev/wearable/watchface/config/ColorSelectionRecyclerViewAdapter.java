@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.wearable.watchface.config;
+package com.deviantdev.wearable.watchface.config;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,7 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.android.wearable.watchface.R;
+import com.deviantdev.wearable.watchface.R;
 
 import java.util.ArrayList;
 

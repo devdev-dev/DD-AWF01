@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.wearable.watchface.config;
+package com.deviantdev.wearable.watchface.config;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.wear.widget.WearableRecyclerView;
 
-import com.example.android.wearable.watchface.R;
-import com.example.android.wearable.watchface.model.AnalogComplicationConfigData;
+import com.deviantdev.wearable.watchface.R;
+import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData;
 
 /**
  * Allows user to select color for something on the watch face (background, highlight,etc.) and
@@ -33,7 +33,7 @@ public class ColorSelectionActivity extends Activity {
     private static final String TAG = ColorSelectionActivity.class.getSimpleName();
 
     static final String EXTRA_SHARED_PREF =
-            "com.example.android.wearable.watchface.config.extra.EXTRA_SHARED_PREF";
+            "com.deviantdev.wearable.watchface.config.extra.EXTRA_SHARED_PREF";
 
     private WearableRecyclerView mConfigAppearanceWearableRecyclerView;
 

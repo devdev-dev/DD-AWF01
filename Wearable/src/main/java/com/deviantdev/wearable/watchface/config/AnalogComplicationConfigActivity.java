@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.wearable.watchface.config;
+package com.deviantdev.wearable.watchface.config;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -24,9 +24,9 @@ import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.ProviderChooserIntent;
 import android.util.Log;
 
-import com.example.android.wearable.watchface.R;
-import com.example.android.wearable.watchface.model.AnalogComplicationConfigData;
-import com.example.android.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
+import com.deviantdev.wearable.watchface.R;
+import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData;
+import com.deviantdev.wearable.watchface.AnalogComplicationWatchFaceService;
 
 /**
  * The watch-side config activity for {@link AnalogComplicationWatchFaceService}, which

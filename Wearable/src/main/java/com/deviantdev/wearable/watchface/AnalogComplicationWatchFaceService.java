@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.wearable.watchface.watchface;
+package com.deviantdev.wearable.watchface;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -36,8 +36,8 @@ import android.support.wearable.watchface.WatchFaceStyle;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
-import com.example.android.wearable.watchface.R;
-import com.example.android.wearable.watchface.config.AnalogComplicationConfigRecyclerViewAdapter;
+import com.deviantdev.wearable.watchface.R;
+import com.deviantdev.wearable.watchface.config.AnalogComplicationConfigRecyclerViewAdapter;
 import java.util.Calendar;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.wearable.watchface.provider;
+package com.deviantdev.wearable.watchface.provider;
 
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -24,8 +24,6 @@ import android.support.wearable.complications.ComplicationManager;
 import android.support.wearable.complications.ComplicationProviderService;
 import android.support.wearable.complications.ComplicationText;
 import android.util.Log;
-
-import com.example.android.wearable.watchface.provider.ComplicationToggleReceiver;
 
 import java.util.Locale;
 

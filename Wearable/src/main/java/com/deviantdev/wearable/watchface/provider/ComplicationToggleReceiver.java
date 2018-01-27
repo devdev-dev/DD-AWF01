@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.wearable.watchface.provider;
+package com.deviantdev.wearable.watchface.provider;
 
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -32,13 +32,13 @@ import android.support.wearable.complications.ProviderUpdateRequester;
 public class ComplicationToggleReceiver extends BroadcastReceiver {
 
     private static final String EXTRA_PROVIDER_COMPONENT =
-            "com.example.android.wearable.watchface.provider.action.PROVIDER_COMPONENT";
+            "com.deviantdev.wearable.watchface.provider.action.PROVIDER_COMPONENT";
     private static final String EXTRA_COMPLICATION_ID =
-            "com.example.android.wearable.watchface.provider.action.COMPLICATION_ID";
+            "com.deviantdev.wearable.watchface.provider.action.COMPLICATION_ID";
 
     static final int MAX_NUMBER = 20;
     static final String COMPLICATION_PROVIDER_PREFERENCES_FILE_KEY =
-            "com.example.android.wearable.watchface.COMPLICATION_PROVIDER_PREFERENCES_FILE_KEY";
+            "com.deviantdev.wearable.watchface.COMPLICATION_PROVIDER_PREFERENCES_FILE_KEY";
 
     @Override
     public void onReceive(Context context, Intent intent) {
