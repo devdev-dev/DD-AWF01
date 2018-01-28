@@ -16,6 +16,7 @@
 
 package com.deviantdev.wearable.watchface;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -36,13 +37,16 @@ import android.support.wearable.watchface.WatchFaceStyle;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
-import com.deviantdev.wearable.watchface.R;
+
 import com.deviantdev.wearable.watchface.config.AnalogComplicationConfigRecyclerViewAdapter;
+
 import java.util.Calendar;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-/** Demonstrates two simple complications in a watch face. */
+/**
+ * Demonstrates two simple complications in a watch face.
+ */
 public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
     private static final String TAG = "AnalogWatchFace";
 
@@ -55,24 +59,24 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
 
     // Background, Left and right complication IDs as array for Complication API.
     private static final int[] COMPLICATION_IDS = {
-        BACKGROUND_COMPLICATION_ID, LEFT_COMPLICATION_ID, RIGHT_COMPLICATION_ID
+            BACKGROUND_COMPLICATION_ID, LEFT_COMPLICATION_ID, RIGHT_COMPLICATION_ID
     };
 
     // Left and right dial supported types.
     private static final int[][] COMPLICATION_SUPPORTED_TYPES = {
-        {ComplicationData.TYPE_LARGE_IMAGE},
-        {
-            ComplicationData.TYPE_RANGED_VALUE,
-            ComplicationData.TYPE_ICON,
-            ComplicationData.TYPE_SHORT_TEXT,
-            ComplicationData.TYPE_SMALL_IMAGE
-        },
-        {
-            ComplicationData.TYPE_RANGED_VALUE,
-            ComplicationData.TYPE_ICON,
-            ComplicationData.TYPE_SHORT_TEXT,
-            ComplicationData.TYPE_SMALL_IMAGE
-        }
+            {ComplicationData.TYPE_LARGE_IMAGE},
+            {
+                    ComplicationData.TYPE_RANGED_VALUE,
+                    ComplicationData.TYPE_ICON,
+                    ComplicationData.TYPE_SHORT_TEXT,
+                    ComplicationData.TYPE_SMALL_IMAGE
+            },
+            {
+                    ComplicationData.TYPE_RANGED_VALUE,
+                    ComplicationData.TYPE_ICON,
+                    ComplicationData.TYPE_SHORT_TEXT,
+                    ComplicationData.TYPE_SMALL_IMAGE
+            }
     };
 
     // Used by {@link AnalogComplicationConfigRecyclerViewAdapter} to check if complication location
@@ -110,7 +114,7 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
             case RIGHT:
                 return COMPLICATION_SUPPORTED_TYPES[2];
             default:
-                return new int[] {};
+                return new int[]{};
         }
     }
 
@@ -193,6 +197,7 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
                 };
 
         // Handler to update the time once a second in interactive mode.
+        @SuppressLint("HandlerLeak")
         private final Handler mUpdateTimeHandler =
                 new Handler() {
                     @Override
@@ -339,8 +344,8 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
             int complicationId;
             ComplicationDrawable complicationDrawable;
 
-            for (int i = 0; i < COMPLICATION_IDS.length; i++) {
-                complicationId = COMPLICATION_IDS[i];
+            for (int COMPLICATION_ID : COMPLICATION_IDS) {
+                complicationId = COMPLICATION_ID;
                 complicationDrawable = mComplicationDrawableSparseArray.get(complicationId);
 
                 if (complicationId == BACKGROUND_COMPLICATION_ID) {
@@ -377,8 +382,8 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
             // screen's capabilities.
             ComplicationDrawable complicationDrawable;
 
-            for (int i = 0; i < COMPLICATION_IDS.length; i++) {
-                complicationDrawable = mComplicationDrawableSparseArray.get(COMPLICATION_IDS[i]);
+            for (int COMPLICATION_ID : COMPLICATION_IDS) {
+                complicationDrawable = mComplicationDrawableSparseArray.get(COMPLICATION_ID);
 
                 complicationDrawable.setLowBitAmbient(mLowBitAmbient);
                 complicationDrawable.setBurnInProtection(mBurnInProtection);
@@ -448,8 +453,8 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
             // have to inform it to enter ambient mode.
             ComplicationDrawable complicationDrawable;
 
-            for (int i = 0; i < COMPLICATION_IDS.length; i++) {
-                complicationDrawable = mComplicationDrawableSparseArray.get(COMPLICATION_IDS[i]);
+            for (int COMPLICATION_ID : COMPLICATION_IDS) {
+                complicationDrawable = mComplicationDrawableSparseArray.get(COMPLICATION_ID);
                 complicationDrawable.setInAmbientMode(mAmbient);
             }
 
@@ -626,8 +631,8 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
             int complicationId;
             ComplicationDrawable complicationDrawable;
 
-            for (int i = 0; i < COMPLICATION_IDS.length; i++) {
-                complicationId = COMPLICATION_IDS[i];
+            for (int COMPLICATION_ID : COMPLICATION_IDS) {
+                complicationId = COMPLICATION_ID;
                 complicationDrawable = mComplicationDrawableSparseArray.get(complicationId);
 
                 complicationDrawable.draw(canvas, currentTimeMillis);

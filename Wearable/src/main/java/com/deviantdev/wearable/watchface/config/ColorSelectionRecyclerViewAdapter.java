@@ -43,7 +43,7 @@ public class ColorSelectionRecyclerViewAdapter extends
     private ArrayList<Integer> mColorOptionsDataSet;
     private String mSharedPrefString;
 
-    public ColorSelectionRecyclerViewAdapter(
+    ColorSelectionRecyclerViewAdapter(
             String sharedPrefString,
             ArrayList<Integer> colorSettingsDataSet) {
 
@@ -54,11 +54,8 @@ public class ColorSelectionRecyclerViewAdapter extends
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder(): viewType: " + viewType);
-
-        RecyclerView.ViewHolder viewHolder =
-                new ColorViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.color_config_list_item, parent, false));
-        return viewHolder;
+        return new ColorViewHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.color_config_list_item, parent, false));
     }
 
     @Override
@@ -82,11 +79,12 @@ public class ColorSelectionRecyclerViewAdapter extends
     public class ColorViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
+        @SuppressWarnings("deprecation")
         private CircledImageView mColorCircleImageView;
 
-        public ColorViewHolder(final View view) {
+        ColorViewHolder(final View view) {
             super(view);
-            mColorCircleImageView = (CircledImageView) view.findViewById(R.id.color);
+            mColorCircleImageView = view.findViewById(R.id.color);
             view.setOnClickListener(this);
         }
 
@@ -95,7 +93,7 @@ public class ColorSelectionRecyclerViewAdapter extends
         }
 
         @Override
-        public void onClick (View view) {
+        public void onClick(View view) {
             int position = getAdapterPosition();
             Integer color = mColorOptionsDataSet.get(position);
 
@@ -110,7 +108,7 @@ public class ColorSelectionRecyclerViewAdapter extends
 
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putInt(mSharedPrefString, color);
-                editor.commit();
+                editor.apply();
 
                 // Let's Complication Config Activity know there was an update to colors.
                 activity.setResult(Activity.RESULT_OK);

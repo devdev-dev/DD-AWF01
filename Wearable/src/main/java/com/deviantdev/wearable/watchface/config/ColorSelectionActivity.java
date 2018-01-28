@@ -35,10 +35,6 @@ public class ColorSelectionActivity extends Activity {
     static final String EXTRA_SHARED_PREF =
             "com.deviantdev.wearable.watchface.config.extra.EXTRA_SHARED_PREF";
 
-    private WearableRecyclerView mConfigAppearanceWearableRecyclerView;
-
-    private ColorSelectionRecyclerViewAdapter mColorSelectionRecyclerViewAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,12 +43,11 @@ public class ColorSelectionActivity extends Activity {
         // Assigns SharedPreference String used to save color selected.
         String sharedPrefString = getIntent().getStringExtra(EXTRA_SHARED_PREF);
 
-        mColorSelectionRecyclerViewAdapter = new ColorSelectionRecyclerViewAdapter(
+        ColorSelectionRecyclerViewAdapter mColorSelectionRecyclerViewAdapter = new ColorSelectionRecyclerViewAdapter(
                 sharedPrefString,
                 AnalogComplicationConfigData.getColorOptionsDataSet());
 
-        mConfigAppearanceWearableRecyclerView =
-                (WearableRecyclerView) findViewById(R.id.wearable_recycler_view);
+        WearableRecyclerView mConfigAppearanceWearableRecyclerView = findViewById(R.id.wearable_recycler_view);
 
         // Aligns the first and last items on the list vertically centered on the screen.
         mConfigAppearanceWearableRecyclerView.setEdgeItemsCenteringEnabled(true);

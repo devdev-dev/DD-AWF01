@@ -24,9 +24,9 @@ import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.ProviderChooserIntent;
 import android.util.Log;
 
+import com.deviantdev.wearable.watchface.AnalogComplicationWatchFaceService;
 import com.deviantdev.wearable.watchface.R;
 import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData;
-import com.deviantdev.wearable.watchface.AnalogComplicationWatchFaceService;
 
 /**
  * The watch-side config activity for {@link AnalogComplicationWatchFaceService}, which
@@ -40,7 +40,6 @@ public class AnalogComplicationConfigActivity extends Activity {
     static final int COMPLICATION_CONFIG_REQUEST_CODE = 1001;
     static final int UPDATE_COLORS_CONFIG_REQUEST_CODE = 1002;
 
-    private WearableRecyclerView mWearableRecyclerView;
     private AnalogComplicationConfigRecyclerViewAdapter mAdapter;
 
     @Override
@@ -54,8 +53,7 @@ public class AnalogComplicationConfigActivity extends Activity {
                 AnalogComplicationConfigData.getWatchFaceServiceClass(),
                 AnalogComplicationConfigData.getDataToPopulateAdapter(this));
 
-        mWearableRecyclerView =
-                (WearableRecyclerView) findViewById(R.id.wearable_recycler_view);
+        WearableRecyclerView mWearableRecyclerView = findViewById(R.id.wearable_recycler_view);
 
         // Aligns the first and last items on the list vertically centered on the screen.
         mWearableRecyclerView.setEdgeItemsCenteringEnabled(true);

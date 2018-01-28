@@ -43,25 +43,29 @@ public class ComplicationToggleReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle extras = intent.getExtras();
-        ComponentName provider = extras.getParcelable(EXTRA_PROVIDER_COMPONENT);
-        int complicationId = extras.getInt(EXTRA_COMPLICATION_ID);
+        if (extras != null) {
+            ComponentName provider = extras.getParcelable(EXTRA_PROVIDER_COMPONENT);
+            if (provider != null) {
+                int complicationId = extras.getInt(EXTRA_COMPLICATION_ID);
 
-        String preferenceKey = getPreferenceKey(provider, complicationId);
-        SharedPreferences sharedPreferences =
-                context.getSharedPreferences(COMPLICATION_PROVIDER_PREFERENCES_FILE_KEY, 0);
+                String preferenceKey = getPreferenceKey(provider, complicationId);
+                SharedPreferences sharedPreferences =
+                        context.getSharedPreferences(COMPLICATION_PROVIDER_PREFERENCES_FILE_KEY, 0);
 
-        int value = sharedPreferences.getInt(preferenceKey, 0);
+                int value = sharedPreferences.getInt(preferenceKey, 0);
 
-        // Updates data for complication.
-        value = (value + 1) % MAX_NUMBER;
+                // Updates data for complication.
+                value = (value + 1) % MAX_NUMBER;
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(preferenceKey, value);
-        editor.apply();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt(preferenceKey, value);
+                editor.apply();
 
-        // Request an update for the complication that has just been toggled.
-        ProviderUpdateRequester requester = new ProviderUpdateRequester(context, provider);
-        requester.requestUpdate(complicationId);
+                // Request an update for the complication that has just been toggled.
+                ProviderUpdateRequester requester = new ProviderUpdateRequester(context, provider);
+                requester.requestUpdate(complicationId);
+            }
+        }
     }
 
     /**
