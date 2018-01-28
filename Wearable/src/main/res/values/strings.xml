@@ -16,15 +16,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">WatchFace</string>
 
-    <string name="opengl_name">Sample OpenGL</string>
-    <string name="interactive_name">Sample Interactive</string>
     <string name="analog_complication">Sample Analog</string>
-    <string name="digital_name">Sample Digital 1.0</string>
-
-    <string name="digital_background_color">Background color</string>
-    <string name="digital_config_name">Digital watch face configuration</string>
-    <string name="digital_am">AM</string>
-    <string name="digital_pm">PM</string>
 
     <string name="complications_provider_incrementing_number">Incrementing Number</string>
 
@@ -40,25 +32,9 @@
     <string name="config_background_image_complication_label">Background\nImage</string>
 
     <!-- TODO: this should be shared (needs covering all the samples with Gradle build model) -->
-    <string name="color_black">Black</string>
-    <string name="color_blue">Blue</string>
-    <string name="color_gray">Gray</string>
-    <string name="color_green">Green</string>
-    <string name="color_navy">Navy</string>
-    <string name="color_red">Red</string>
-    <string name="color_white">White</string>
 
     <string name="analog_complication_config">Configure Watchface Complications</string>
     <string name="add_complication">Add Complication</string>
     <string name="edit_complication">Edit Complication <xliff:g id="name" example="World Clock">%1$s</xliff:g></string>
 
-    <string-array name="color_array">
-        <item>@string/color_black</item>
-        <item>@string/color_blue</item>
-        <item>@string/color_gray</item>
-        <item>@string/color_green</item>
-        <item>@string/color_navy</item>
-        <item>@string/color_red</item>
-        <item>@string/color_white</item>
-    </string-array>
 </resources>
