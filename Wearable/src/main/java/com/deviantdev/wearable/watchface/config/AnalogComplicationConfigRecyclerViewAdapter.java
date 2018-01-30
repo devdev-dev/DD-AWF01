@@ -45,6 +45,7 @@ import android.widget.Toast;
 
 import com.deviantdev.wearable.watchface.AnalogComplicationWatchFaceService;
 import com.deviantdev.wearable.watchface.R;
+import com.deviantdev.wearable.watchface.WatchFaceComplicationConfiguration.Complication;
 import com.deviantdev.wearable.watchface.WatchFaceSettings;
 import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData.BackgroundComplicationConfigItem;
 import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData.ColorConfigItem;
@@ -79,17 +80,6 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = "CompConfigAdapter";
-
-    /**
-     * Used by associated watch face ({@link AnalogComplicationWatchFaceService}) to let this
-     * adapter know which complication locations are supported, their ids, and supported
-     * complication data types.
-     */
-    public enum ComplicationLocation {
-        BACKGROUND,
-        LEFT,
-        RIGHT
-    }
 
     public static final int TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG = 0;
     public static final int TYPE_MORE_OPTIONS = 1;
@@ -137,14 +127,10 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         // Default value is invalid (only changed when user taps to change complication).
         mSelectedComplicationId = -1;
 
-        mBackgroundComplicationId =
-                AnalogComplicationWatchFaceService.getComplicationId(
-                        ComplicationLocation.BACKGROUND);
+        mBackgroundComplicationId = Complication.BACKGROUND.getId();
 
-        mLeftComplicationId =
-                AnalogComplicationWatchFaceService.getComplicationId(ComplicationLocation.LEFT);
-        mRightComplicationId =
-                AnalogComplicationWatchFaceService.getComplicationId(ComplicationLocation.RIGHT);
+        mLeftComplicationId =Complication.LEFT.getId();
+        mRightComplicationId =Complication.RIGHT.getId();
 
         // Initialization of code to retrieve active complication data for the watch face.
         mProviderInfoRetriever =
@@ -383,13 +369,13 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 Log.d(TAG, "Left Complication click()");
 
                 Activity currentActivity = (Activity) view.getContext();
-                launchComplicationHelperActivity(currentActivity, ComplicationLocation.LEFT);
+                launchComplicationHelperActivity(currentActivity, Complication.LEFT);
 
             } else if (view.equals(mRightComplication)) {
                 Log.d(TAG, "Right Complication click()");
 
                 Activity currentActivity = (Activity) view.getContext();
-                launchComplicationHelperActivity(currentActivity, ComplicationLocation.RIGHT);
+                launchComplicationHelperActivity(currentActivity, Complication.RIGHT);
             }
         }
 
@@ -424,18 +410,13 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         // Verifies the watch face supports the complication location, then launches the helper
         // class, so user can choose their complication data provider.
         private void launchComplicationHelperActivity(
-                Activity currentActivity, ComplicationLocation complicationLocation) {
+                Activity currentActivity, Complication complication) {
 
-            mSelectedComplicationId =
-                    AnalogComplicationWatchFaceService.getComplicationId(complicationLocation);
+            mSelectedComplicationId = complication.getId();
 
             mBackgroundComplicationEnabled = false;
 
             if (mSelectedComplicationId >= 0) {
-
-                int[] supportedTypes =
-                        AnalogComplicationWatchFaceService.getSupportedComplicationTypes(
-                                complicationLocation);
 
                 ComponentName watchFace =
                         new ComponentName(
@@ -445,8 +426,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                         ComplicationHelperActivity.createProviderChooserHelperIntent(
                                 currentActivity,
                                 watchFace,
-                                mSelectedComplicationId,
-                                supportedTypes),
+                                complication.getId(),
+                                complication.getSupportedTypes()),
                         AnalogComplicationConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
 
             } else {
@@ -544,7 +525,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                     .getBackground()
                     .setColorFilter(backgroundColorFilter);
 
-            final int[] complicationIds = AnalogComplicationWatchFaceService.getComplicationIds();
+            final int[] complicationIds = Complication.Companion.getAllIds();
 
             mProviderInfoRetriever.retrieveProviderInfo(
                     new OnProviderInfoReceivedCallback() {
@@ -730,15 +711,10 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
             Activity currentActivity = (Activity) view.getContext();
 
-            mSelectedComplicationId =
-                    AnalogComplicationWatchFaceService.getComplicationId(
-                            ComplicationLocation.BACKGROUND);
+            mSelectedComplicationId = Complication.BACKGROUND.getId();
 
             if (mSelectedComplicationId >= 0) {
 
-                int[] supportedTypes =
-                        AnalogComplicationWatchFaceService.getSupportedComplicationTypes(
-                                ComplicationLocation.BACKGROUND);
 
                 ComponentName watchFace =
                         new ComponentName(
@@ -748,8 +724,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                         ComplicationHelperActivity.createProviderChooserHelperIntent(
                                 currentActivity,
                                 watchFace,
-                                mSelectedComplicationId,
-                                supportedTypes),
+                                Complication.BACKGROUND.getId(),
+                                Complication.BACKGROUND.getSupportedTypes()),
                         AnalogComplicationConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
 
             } else {
