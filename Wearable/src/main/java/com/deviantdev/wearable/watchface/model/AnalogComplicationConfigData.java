@@ -17,14 +17,15 @@ package com.deviantdev.wearable.watchface.model;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 
 import com.deviantdev.wearable.watchface.AnalogComplicationWatchFaceService;
 import com.deviantdev.wearable.watchface.R;
+import com.deviantdev.wearable.watchface.WatchFaceSettings;
+import com.deviantdev.wearable.watchface.config.AnalogComplicationConfigActivity;
 import com.deviantdev.wearable.watchface.config.AnalogComplicationConfigRecyclerViewAdapter;
 import com.deviantdev.wearable.watchface.config.ColorSelectionActivity;
-import com.deviantdev.wearable.watchface.config.AnalogComplicationConfigActivity;
 
 import java.util.ArrayList;
 
@@ -109,7 +110,7 @@ public class AnalogComplicationConfigData {
                 new ColorConfigItem(
                         context.getString(R.string.config_marker_color_label),
                         R.drawable.icn_styles,
-                        context.getString(R.string.saved_marker_color),
+                        WatchFaceSettings.SAVED_MARKERS_COLOR,
                         ColorSelectionActivity.class);
         settingsConfigData.add(markerColorConfigItem);
 
@@ -118,7 +119,7 @@ public class AnalogComplicationConfigData {
                 new ColorConfigItem(
                         context.getString(R.string.config_background_color_label),
                         R.drawable.icn_styles,
-                        context.getString(R.string.saved_background_color),
+                        WatchFaceSettings.SAVED_BACKGROUND_COLOR,
                         ColorSelectionActivity.class);
         settingsConfigData.add(backgroundColorConfigItem);
 
@@ -127,8 +128,7 @@ public class AnalogComplicationConfigData {
                 new UnreadNotificationConfigItem(
                         context.getString(R.string.config_unread_notifications_label),
                         R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
-                        R.string.saved_unread_notifications_pref);
+                        R.drawable.ic_notifications_off_white_24dp);
         settingsConfigData.add(unreadNotificationsConfigItem);
 
         // Data for background complications UX in settings Activity.
@@ -187,7 +187,7 @@ public class AnalogComplicationConfigData {
     /**
      * Data for color picker item in RecyclerView.
      */
-    public static class ColorConfigItem  implements ConfigItemType {
+    public static class ColorConfigItem implements ConfigItemType {
 
         private String name;
         private int iconResourceId;
@@ -230,22 +230,19 @@ public class AnalogComplicationConfigData {
     /**
      * Data for Unread Notification preference picker item in RecyclerView.
      */
-    public static class UnreadNotificationConfigItem  implements ConfigItemType {
+    public static class UnreadNotificationConfigItem implements ConfigItemType {
 
         private String name;
         private int iconEnabledResourceId;
         private int iconDisabledResourceId;
-        private int sharedPrefId;
 
         UnreadNotificationConfigItem(
                 String name,
                 int iconEnabledResourceId,
-                int iconDisabledResourceId,
-                int sharedPrefId) {
+                int iconDisabledResourceId) {
             this.name = name;
             this.iconEnabledResourceId = iconEnabledResourceId;
             this.iconDisabledResourceId = iconDisabledResourceId;
-            this.sharedPrefId = sharedPrefId;
         }
 
         public String getName() {
@@ -260,10 +257,6 @@ public class AnalogComplicationConfigData {
             return iconDisabledResourceId;
         }
 
-        public int getSharedPrefId() {
-            return sharedPrefId;
-        }
-
         @Override
         public int getConfigType() {
             return AnalogComplicationConfigRecyclerViewAdapter.TYPE_UNREAD_NOTIFICATION_CONFIG;
@@ -273,7 +266,7 @@ public class AnalogComplicationConfigData {
     /**
      * Data for background image complication picker item in RecyclerView.
      */
-    public static class BackgroundComplicationConfigItem  implements ConfigItemType {
+    public static class BackgroundComplicationConfigItem implements ConfigItemType {
 
         private String name;
         private int iconResourceId;

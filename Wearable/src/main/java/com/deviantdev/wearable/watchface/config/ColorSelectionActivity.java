@@ -30,21 +30,12 @@ import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData;
  */
 public class ColorSelectionActivity extends Activity {
 
-    private static final String TAG = ColorSelectionActivity.class.getSimpleName();
-
-    static final String EXTRA_SHARED_PREF =
-            "com.deviantdev.wearable.watchface.config.extra.EXTRA_SHARED_PREF";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_selection_config);
 
-        // Assigns SharedPreference String used to save color selected.
-        String sharedPrefString = getIntent().getStringExtra(EXTRA_SHARED_PREF);
-
         ColorSelectionRecyclerViewAdapter mColorSelectionRecyclerViewAdapter = new ColorSelectionRecyclerViewAdapter(
-                sharedPrefString,
                 AnalogComplicationConfigData.getColorOptionsDataSet());
 
         WearableRecyclerView mConfigAppearanceWearableRecyclerView = findViewById(R.id.wearable_recycler_view);

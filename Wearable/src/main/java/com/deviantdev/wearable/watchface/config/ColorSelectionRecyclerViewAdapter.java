@@ -16,7 +16,6 @@
 package com.deviantdev.wearable.watchface.config;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.support.wearable.view.CircledImageView;
@@ -26,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.deviantdev.wearable.watchface.R;
+import com.deviantdev.wearable.watchface.WatchFaceSettings;
 
 import java.util.ArrayList;
 
@@ -41,19 +41,19 @@ public class ColorSelectionRecyclerViewAdapter extends
     private static final String TAG = ColorSelectionRecyclerViewAdapter.class.getSimpleName();
 
     private ArrayList<Integer> mColorOptionsDataSet;
-    private String mSharedPrefString;
 
-    ColorSelectionRecyclerViewAdapter(
-            String sharedPrefString,
-            ArrayList<Integer> colorSettingsDataSet) {
+    private final WatchFaceSettings watchFaceSettings;
 
-        mSharedPrefString = sharedPrefString;
+    ColorSelectionRecyclerViewAdapter(ArrayList<Integer> colorSettingsDataSet) {
         mColorOptionsDataSet = colorSettingsDataSet;
+        watchFaceSettings = new WatchFaceSettings();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder(): viewType: " + viewType);
+
+        watchFaceSettings.reloadSavedPreferences(parent.getContext());
         return new ColorViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.color_config_list_item, parent, false));
     }
@@ -101,18 +101,11 @@ public class ColorSelectionRecyclerViewAdapter extends
 
             Activity activity = (Activity) view.getContext();
 
-            if (mSharedPrefString != null && !mSharedPrefString.isEmpty()) {
-                SharedPreferences sharedPref = activity.getSharedPreferences(
-                        activity.getString(R.string.analog_complication_preference_file_key),
-                        Context.MODE_PRIVATE);
+            watchFaceSettings.setBackgroundColor(color);
+            watchFaceSettings.commitChangedPreferences(view.getContext());
 
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putInt(mSharedPrefString, color);
-                editor.apply();
-
-                // Let's Complication Config Activity know there was an update to colors.
-                activity.setResult(Activity.RESULT_OK);
-            }
+            // Let's Complication Config Activity know there was an update to colors.
+            activity.setResult(Activity.RESULT_OK);
             activity.finish();
         }
     }

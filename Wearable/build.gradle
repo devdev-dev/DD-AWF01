@@ -6,11 +6,11 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
     }
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 repositories {
     jcenter()
@@ -20,10 +20,8 @@ repositories {
 
 
 dependencies {
-
     compile 'com.android.support:palette-v7:27.0.2'
     compile 'com.android.support:wear:27.0.2'
-
 
     compile 'com.google.android.gms:play-services-wearable:11.8.0'
     compile 'com.android.support:support-v13:27.0.2'
@@ -31,12 +29,9 @@ dependencies {
     provided 'com.google.android.wearable:wearable:2.2.0'
 
     compile 'com.google.android.support:wearable:2.2.0'
-
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
-// The sample build uses multiple directories to
-// keep boilerplate and common code separate from
-// the main sample code.
 List<String> dirs = [
     'main',     // main sample code; look here for the interesting stuff.
     'common',   // components that are reused by multiple samples

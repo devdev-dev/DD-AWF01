@@ -45,6 +45,7 @@ import android.widget.Toast;
 
 import com.deviantdev.wearable.watchface.AnalogComplicationWatchFaceService;
 import com.deviantdev.wearable.watchface.R;
+import com.deviantdev.wearable.watchface.WatchFaceSettings;
 import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData.BackgroundComplicationConfigItem;
 import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData.ColorConfigItem;
 import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData.ConfigItemType;
@@ -54,8 +55,6 @@ import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData.Unre
 
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
-
-import static com.deviantdev.wearable.watchface.config.ColorSelectionActivity.EXTRA_SHARED_PREF;
 
 /**
  * Displays different layouts for configuring watch face's complications and appearance settings
@@ -106,7 +105,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
     private Context mContext;
 
-    private SharedPreferences mSharedPref;
+    private final WatchFaceSettings watchFaceSettings;
 
     // Selected complication id by user.
     private int mSelectedComplicationId;
@@ -122,13 +121,17 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     // notifyItemChanged(int position) to avoid flicker and re-inflating the view.
     private PreviewAndComplicationsViewHolder mPreviewAndComplicationsViewHolder;
 
-    AnalogComplicationConfigRecyclerViewAdapter(
-            Context context,
-            Class watchFaceServiceClass,
-            ArrayList<ConfigItemType> settingsDataSet) {
+    AnalogComplicationConfigRecyclerViewAdapter(Context context,
+                                                Class watchFaceServiceClass,
+                                                ArrayList<ConfigItemType> settingsDataSet) {
 
         mContext = context;
+
         mWatchFaceComponentName = new ComponentName(mContext, watchFaceServiceClass);
+
+        watchFaceSettings = new WatchFaceSettings();
+        watchFaceSettings.reloadSavedPreferences(context);
+
         mSettingsDataSet = settingsDataSet;
 
         // Default value is invalid (only changed when user taps to change complication).
@@ -142,11 +145,6 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 AnalogComplicationWatchFaceService.getComplicationId(ComplicationLocation.LEFT);
         mRightComplicationId =
                 AnalogComplicationWatchFaceService.getComplicationId(ComplicationLocation.RIGHT);
-
-        mSharedPref =
-                context.getSharedPreferences(
-                        context.getString(R.string.analog_complication_preference_file_key),
-                        Context.MODE_PRIVATE);
 
         // Initialization of code to retrieve active complication data for the watch face.
         mProviderInfoRetriever =
@@ -273,12 +271,10 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 int unreadDisabledIconResourceId = unreadConfigItem.getIconDisabledResourceId();
 
                 String unreadName = unreadConfigItem.getName();
-                int unreadSharedPrefId = unreadConfigItem.getSharedPrefId();
 
                 unreadViewHolder.setIcons(
                         unreadEnabledIconResourceId, unreadDisabledIconResourceId);
                 unreadViewHolder.setName(unreadName);
-                unreadViewHolder.setSharedPrefId(unreadSharedPrefId);
                 break;
 
             case TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG:
@@ -401,14 +397,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
             // Only update background colors for preview if background complications are disabled.
             if (!mBackgroundComplicationEnabled) {
-                // Updates background color.
-                String backgroundSharedPrefString =
-                        mContext.getString(R.string.saved_background_color);
-                int currentBackgroundColor =
-                        mSharedPref.getInt(backgroundSharedPrefString, Color.BLACK);
 
                 PorterDuffColorFilter backgroundColorFilter =
-                        new PorterDuffColorFilter(currentBackgroundColor, PorterDuff.Mode.SRC_ATOP);
+                        new PorterDuffColorFilter(watchFaceSettings.getBackgroundColor(), PorterDuff.Mode.SRC_ATOP);
 
                 mWatchFaceBackgroundPreviewImageView
                         .getBackground()
@@ -424,11 +415,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             }
 
             // Updates highlight color (just second arm).
-            String highlightSharedPrefString = mContext.getString(R.string.saved_marker_color);
-            int currentHighlightColor = mSharedPref.getInt(highlightSharedPrefString, Color.RED);
-
             PorterDuffColorFilter highlightColorFilter =
-                    new PorterDuffColorFilter(currentHighlightColor, PorterDuff.Mode.SRC_ATOP);
+                    new PorterDuffColorFilter(watchFaceSettings.getWatchHandHighlightColor(), PorterDuff.Mode.SRC_ATOP);
 
             mWatchFaceHighlightPreviewView.getBackground().setColorFilter(highlightColorFilter);
         }
@@ -503,14 +491,10 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                     // Clears icon for background if it was present before.
                     mWatchFaceBackgroundPreviewImageView.setImageResource(
                             android.R.color.transparent);
-                    String backgroundSharedPrefString =
-                            mContext.getString(R.string.saved_background_color);
-                    int currentBackgroundColor =
-                            mSharedPref.getInt(backgroundSharedPrefString, Color.BLACK);
 
                     PorterDuffColorFilter backgroundColorFilter =
                             new PorterDuffColorFilter(
-                                    currentBackgroundColor, PorterDuff.Mode.SRC_ATOP);
+                                    watchFaceSettings.getBackgroundColor(), PorterDuff.Mode.SRC_ATOP);
 
                     mWatchFaceBackgroundPreviewImageView
                             .getBackground()
@@ -546,11 +530,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         private void initializesColorsAndComplications() {
 
             // Initializes highlight color (just second arm and part of complications).
-            String highlightSharedPrefString = mContext.getString(R.string.saved_marker_color);
-            int currentHighlightColor = mSharedPref.getInt(highlightSharedPrefString, Color.RED);
-
             PorterDuffColorFilter highlightColorFilter =
-                    new PorterDuffColorFilter(currentHighlightColor, PorterDuff.Mode.SRC_ATOP);
+                    new PorterDuffColorFilter(watchFaceSettings.getWatchHandHighlightColor(), PorterDuff.Mode.SRC_ATOP);
 
             mWatchFaceHighlightPreviewView.getBackground().setColorFilter(highlightColorFilter);
 
@@ -646,9 +627,6 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             if (mLaunchActivityToSelectColor != null) {
                 Intent launchIntent = new Intent(view.getContext(), mLaunchActivityToSelectColor);
 
-                // Pass shared preference name to save color value to.
-                launchIntent.putExtra(EXTRA_SHARED_PREF, mSharedPrefResourceString);
-
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(
                         launchIntent,
@@ -668,8 +646,6 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         private int mEnabledIconResourceId;
         private int mDisabledIconResourceId;
-
-        private int mSharedPrefResourceId;
 
         private UnreadNotificationViewHolder(View view) {
             super(view);
@@ -694,19 +670,6 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                     context.getDrawable(mEnabledIconResourceId), null, null, null);
         }
 
-        private void setSharedPrefId(int sharedPrefId) {
-            mSharedPrefResourceId = sharedPrefId;
-
-            if (mUnreadNotificationSwitch != null) {
-
-                Context context = mUnreadNotificationSwitch.getContext();
-                String sharedPreferenceString = context.getString(mSharedPrefResourceId);
-                Boolean currentState = mSharedPref.getBoolean(sharedPreferenceString, true);
-
-                updateIcon(context, currentState);
-            }
-        }
-
         private void updateIcon(Context context, Boolean currentState) {
             int currentIconResourceId;
 
@@ -726,17 +689,11 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             int position = getAdapterPosition();
             Log.d(TAG, "Complication onClick() position: " + position);
 
-            Context context = view.getContext();
-            String sharedPreferenceString = context.getString(mSharedPrefResourceId);
-
             // Since user clicked on a switch, new state should be opposite of current state.
-            Boolean newState = !mSharedPref.getBoolean(sharedPreferenceString, true);
+            watchFaceSettings.setUnreadNotifications(!watchFaceSettings.getUnreadNotifications());
+            watchFaceSettings.commitChangedPreferences(view.getContext());
 
-            SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putBoolean(sharedPreferenceString, newState);
-            editor.apply();
-
-            updateIcon(context, newState);
+            updateIcon(view.getContext(), watchFaceSettings.getUnreadNotifications());
         }
     }
 
