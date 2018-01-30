@@ -46,7 +46,7 @@ import android.widget.Toast;
 import com.deviantdev.wearable.watchface.AnalogComplicationWatchFaceService;
 import com.deviantdev.wearable.watchface.R;
 import com.deviantdev.wearable.watchface.WatchFaceComplicationConfiguration.Complication;
-import com.deviantdev.wearable.watchface.WatchFaceSettings;
+import com.deviantdev.wearable.watchface.WatchFacePreferences;
 import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData.BackgroundComplicationConfigItem;
 import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData.ColorConfigItem;
 import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData.ConfigItemType;
@@ -95,7 +95,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
     private Context mContext;
 
-    private final WatchFaceSettings watchFaceSettings;
+    private final WatchFacePreferences watchFacePreferences;
 
     // Selected complication id by user.
     private int mSelectedComplicationId;
@@ -119,8 +119,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         mWatchFaceComponentName = new ComponentName(mContext, watchFaceServiceClass);
 
-        watchFaceSettings = new WatchFaceSettings();
-        watchFaceSettings.reloadSavedPreferences(context);
+        watchFacePreferences = new WatchFacePreferences();
+        watchFacePreferences.reloadSavedPreferences(context);
 
         mSettingsDataSet = settingsDataSet;
 
@@ -385,7 +385,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             if (!mBackgroundComplicationEnabled) {
 
                 PorterDuffColorFilter backgroundColorFilter =
-                        new PorterDuffColorFilter(watchFaceSettings.getBackgroundColor(), PorterDuff.Mode.SRC_ATOP);
+                        new PorterDuffColorFilter(watchFacePreferences.getBackgroundColor(), PorterDuff.Mode.SRC_ATOP);
 
                 mWatchFaceBackgroundPreviewImageView
                         .getBackground()
@@ -402,7 +402,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
             // Updates highlight color (just second arm).
             PorterDuffColorFilter highlightColorFilter =
-                    new PorterDuffColorFilter(watchFaceSettings.getWatchHandHighlightColor(), PorterDuff.Mode.SRC_ATOP);
+                    new PorterDuffColorFilter(watchFacePreferences.getWatchHandHighlightColor(), PorterDuff.Mode.SRC_ATOP);
 
             mWatchFaceHighlightPreviewView.getBackground().setColorFilter(highlightColorFilter);
         }
@@ -475,7 +475,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
                     PorterDuffColorFilter backgroundColorFilter =
                             new PorterDuffColorFilter(
-                                    watchFaceSettings.getBackgroundColor(), PorterDuff.Mode.SRC_ATOP);
+                                    watchFacePreferences.getBackgroundColor(), PorterDuff.Mode.SRC_ATOP);
 
                     mWatchFaceBackgroundPreviewImageView
                             .getBackground()
@@ -512,7 +512,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
             // Initializes highlight color (just second arm and part of complications).
             PorterDuffColorFilter highlightColorFilter =
-                    new PorterDuffColorFilter(watchFaceSettings.getWatchHandHighlightColor(), PorterDuff.Mode.SRC_ATOP);
+                    new PorterDuffColorFilter(watchFacePreferences.getWatchHandHighlightColor(), PorterDuff.Mode.SRC_ATOP);
 
             mWatchFaceHighlightPreviewView.getBackground().setColorFilter(highlightColorFilter);
 
@@ -671,10 +671,10 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             Log.d(TAG, "Complication onClick() position: " + position);
 
             // Since user clicked on a switch, new state should be opposite of current state.
-            watchFaceSettings.setUnreadNotifications(!watchFaceSettings.getUnreadNotifications());
-            watchFaceSettings.commitChangedPreferences(view.getContext());
+            watchFacePreferences.setUnreadNotifications(!watchFacePreferences.getUnreadNotifications());
+            watchFacePreferences.commitChangedPreferences(view.getContext());
 
-            updateIcon(view.getContext(), watchFaceSettings.getUnreadNotifications());
+            updateIcon(view.getContext(), watchFacePreferences.getUnreadNotifications());
         }
     }
 

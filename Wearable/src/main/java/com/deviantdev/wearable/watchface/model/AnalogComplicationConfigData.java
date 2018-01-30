@@ -22,7 +22,7 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 
 import com.deviantdev.wearable.watchface.AnalogComplicationWatchFaceService;
 import com.deviantdev.wearable.watchface.R;
-import com.deviantdev.wearable.watchface.WatchFaceSettings;
+import com.deviantdev.wearable.watchface.WatchFacePreferences;
 import com.deviantdev.wearable.watchface.config.AnalogComplicationConfigActivity;
 import com.deviantdev.wearable.watchface.config.AnalogComplicationConfigRecyclerViewAdapter;
 import com.deviantdev.wearable.watchface.config.ColorSelectionActivity;
@@ -110,7 +110,7 @@ public class AnalogComplicationConfigData {
                 new ColorConfigItem(
                         context.getString(R.string.config_marker_color_label),
                         R.drawable.icn_styles,
-                        WatchFaceSettings.SAVED_MARKERS_COLOR,
+                        WatchFacePreferences.SAVED_MARKERS_COLOR,
                         ColorSelectionActivity.class);
         settingsConfigData.add(markerColorConfigItem);
 
@@ -119,7 +119,7 @@ public class AnalogComplicationConfigData {
                 new ColorConfigItem(
                         context.getString(R.string.config_background_color_label),
                         R.drawable.icn_styles,
-                        WatchFaceSettings.SAVED_BACKGROUND_COLOR,
+                        WatchFacePreferences.SAVED_BACKGROUND_COLOR,
                         ColorSelectionActivity.class);
         settingsConfigData.add(backgroundColorConfigItem);
 

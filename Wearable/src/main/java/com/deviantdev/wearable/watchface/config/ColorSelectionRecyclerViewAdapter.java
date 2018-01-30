@@ -25,7 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.deviantdev.wearable.watchface.R;
-import com.deviantdev.wearable.watchface.WatchFaceSettings;
+import com.deviantdev.wearable.watchface.WatchFacePreferences;
 
 import java.util.ArrayList;
 
@@ -42,18 +42,18 @@ public class ColorSelectionRecyclerViewAdapter extends
 
     private ArrayList<Integer> mColorOptionsDataSet;
 
-    private final WatchFaceSettings watchFaceSettings;
+    private final WatchFacePreferences watchFacePreferences;
 
     ColorSelectionRecyclerViewAdapter(ArrayList<Integer> colorSettingsDataSet) {
         mColorOptionsDataSet = colorSettingsDataSet;
-        watchFaceSettings = new WatchFaceSettings();
+        watchFacePreferences = new WatchFacePreferences();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder(): viewType: " + viewType);
 
-        watchFaceSettings.reloadSavedPreferences(parent.getContext());
+        watchFacePreferences.reloadSavedPreferences(parent.getContext());
         return new ColorViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.color_config_list_item, parent, false));
     }
@@ -101,8 +101,8 @@ public class ColorSelectionRecyclerViewAdapter extends
 
             Activity activity = (Activity) view.getContext();
 
-            watchFaceSettings.setBackgroundColor(color);
-            watchFaceSettings.commitChangedPreferences(view.getContext());
+            watchFacePreferences.setBackgroundColor(color);
+            watchFacePreferences.commitChangedPreferences(view.getContext());
 
             // Let's Complication Config Activity know there was an update to colors.
             activity.setResult(Activity.RESULT_OK);

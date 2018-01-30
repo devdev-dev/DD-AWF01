@@ -3,7 +3,7 @@ package com.deviantdev.wearable.watchface
 import android.content.Context
 import android.graphics.Color
 
-class WatchFaceSettings {
+class WatchFacePreferences {
 
     var backgroundColor = Color.BLACK
     var watchHandHighlightColor = Color.RED

@@ -70,7 +70,7 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
 
         private static final int SHADOW_RADIUS = 6;
 
-        private WatchFaceSettings watchFaceSettings;
+        private WatchFacePreferences watchFacePreferences;
 
         private Calendar mCalendar;
         private boolean mRegisteredTimeZoneReceiver = false;
@@ -158,11 +158,10 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
         // Pulls all user's preferences for watch face appearance.
         private void loadSavedPreferences() {
 
-            watchFaceSettings = new WatchFaceSettings();
-            watchFaceSettings.reloadSavedPreferences(getApplicationContext());
+            watchFacePreferences = new WatchFacePreferences();
+            watchFacePreferences.reloadSavedPreferences(getApplicationContext());
 
-
-            if (watchFaceSettings.getBackgroundColor() == Color.WHITE) {
+            if (watchFacePreferences.getBackgroundColor() == Color.WHITE) {
                 mWatchHandAndComplicationsColor = Color.BLACK;
                 mWatchHandShadowColor = Color.WHITE;
             } else {
@@ -176,7 +175,7 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
 
             // Initialize background color (in case background complication is inactive).
             mBackgroundPaint = new Paint();
-            mBackgroundPaint.setColor(watchFaceSettings.getBackgroundColor());
+            mBackgroundPaint.setColor(watchFacePreferences.getBackgroundColor());
 
             mActiveComplicationDataSparseArray = new SparseArray<>(Complication.values().length);
 
@@ -199,7 +198,7 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
             mComplicationDrawableSparseArray.put(
                     Complication.BACKGROUND.getId(), backgroundComplicationDrawable);
 
-            setComplicationsActiveAndAmbientColors(watchFaceSettings.getWatchHandHighlightColor());
+            setComplicationsActiveAndAmbientColors(watchFacePreferences.getWatchHandHighlightColor());
             setActiveComplications(Complication.Companion.getAllIds());
         }
 
@@ -249,7 +248,7 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
             mMinutePaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mWatchHandShadowColor);
 
             mSecondAndHighlightPaint = new Paint();
-            mSecondAndHighlightPaint.setColor(watchFaceSettings.getWatchHandHighlightColor());
+            mSecondAndHighlightPaint.setColor(watchFacePreferences.getWatchHandHighlightColor());
             mSecondAndHighlightPaint.setStrokeWidth(SECOND_TICK_STROKE_WIDTH);
             mSecondAndHighlightPaint.setAntiAlias(true);
             mSecondAndHighlightPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -383,13 +382,13 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
 
             } else {
 
-                mBackgroundPaint.setColor(watchFaceSettings.getBackgroundColor());
+                mBackgroundPaint.setColor(watchFacePreferences.getBackgroundColor());
 
                 mHourPaint.setColor(mWatchHandAndComplicationsColor);
                 mMinutePaint.setColor(mWatchHandAndComplicationsColor);
                 mTickAndCirclePaint.setColor(mWatchHandAndComplicationsColor);
 
-                mSecondAndHighlightPaint.setColor(watchFaceSettings.getWatchHandHighlightColor());
+                mSecondAndHighlightPaint.setColor(watchFacePreferences.getWatchHandHighlightColor());
 
                 mHourPaint.setAntiAlias(true);
                 mMinutePaint.setAntiAlias(true);
@@ -499,7 +498,7 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
 
         private void drawUnreadNotificationIcon(Canvas canvas) {
 
-            if (watchFaceSettings.getUnreadNotifications() && (mNumberOfUnreadNotifications > 0)) {
+            if (watchFacePreferences.getUnreadNotifications() && (mNumberOfUnreadNotifications > 0)) {
 
                 int width = canvas.getWidth();
                 int height = canvas.getHeight();
@@ -522,7 +521,7 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
                 canvas.drawColor(Color.BLACK);
 
             } else {
-                canvas.drawColor(watchFaceSettings.getBackgroundColor());
+                canvas.drawColor(watchFacePreferences.getBackgroundColor());
             }
         }
 
@@ -621,14 +620,14 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
             if (visible) {
 
                 // Preferences might have changed since last time watch face was visible.
-                watchFaceSettings.reloadSavedPreferences(getApplicationContext());
+                watchFacePreferences.reloadSavedPreferences(getApplicationContext());
 
                 // With the rest of the watch face, we update the paint colors based on
                 // ambient/active mode callbacks, but because the ComplicationDrawable handles
                 // the active/ambient colors, we only need to update the complications' colors when
                 // the user actually makes a change to the highlight color, not when the watch goes
                 // in and out of ambient mode.
-                setComplicationsActiveAndAmbientColors(watchFaceSettings.getWatchHandHighlightColor());
+                setComplicationsActiveAndAmbientColors(watchFacePreferences.getWatchHandHighlightColor());
                 updateWatchPaintStyles();
 
                 registerReceiver();
@@ -647,7 +646,7 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
         public void onUnreadCountChanged(int count) {
             Log.d(TAG, "onUnreadCountChanged(): " + count);
 
-            if (watchFaceSettings.getUnreadNotifications()) {
+            if (watchFacePreferences.getUnreadNotifications()) {
 
                 if (mNumberOfUnreadNotifications != count) {
                     mNumberOfUnreadNotifications = count;
