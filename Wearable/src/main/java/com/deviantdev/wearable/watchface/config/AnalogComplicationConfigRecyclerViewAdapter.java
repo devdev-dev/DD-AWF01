@@ -43,7 +43,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.deviantdev.wearable.watchface.AnalogComplicationWatchFaceService;
+import com.deviantdev.wearable.watchface.WatchFaceService;
 import com.deviantdev.wearable.watchface.R;
 import com.deviantdev.wearable.watchface.WatchFaceComplicationConfiguration.Complication;
 import com.deviantdev.wearable.watchface.WatchFacePreferences;
@@ -420,7 +420,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
                 ComponentName watchFace =
                         new ComponentName(
-                                currentActivity, AnalogComplicationWatchFaceService.class);
+                                currentActivity, WatchFaceService.class);
 
                 currentActivity.startActivityForResult(
                         ComplicationHelperActivity.createProviderChooserHelperIntent(
@@ -718,7 +718,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
                 ComponentName watchFace =
                         new ComponentName(
-                                currentActivity, AnalogComplicationWatchFaceService.class);
+                                currentActivity, WatchFaceService.class);
 
                 currentActivity.startActivityForResult(
                         ComplicationHelperActivity.createProviderChooserHelperIntent(

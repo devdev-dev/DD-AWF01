@@ -20,7 +20,7 @@ import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 
-import com.deviantdev.wearable.watchface.AnalogComplicationWatchFaceService;
+import com.deviantdev.wearable.watchface.WatchFaceService;
 import com.deviantdev.wearable.watchface.R;
 import com.deviantdev.wearable.watchface.WatchFacePreferences;
 import com.deviantdev.wearable.watchface.config.AnalogComplicationConfigActivity;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 /**
  * Data represents different views for configuring the
- * {@link AnalogComplicationWatchFaceService} watch face's appearance and complications
+ * {@link WatchFaceService} watch face's appearance and complications
  * via {@link AnalogComplicationConfigActivity}.
  */
 public class AnalogComplicationConfigData {
@@ -49,7 +49,7 @@ public class AnalogComplicationConfigData {
      * Returns Watch Face Service class associated with configuration Activity.
      */
     public static Class getWatchFaceServiceClass() {
-        return AnalogComplicationWatchFaceService.class;
+        return WatchFaceService.class;
     }
 
     /**

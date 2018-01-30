@@ -31,7 +31,6 @@ import android.os.Message;
 import android.support.wearable.complications.ComplicationData;
 import android.support.wearable.complications.rendering.ComplicationDrawable;
 import android.support.wearable.watchface.CanvasWatchFaceService;
-import android.support.wearable.watchface.WatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
 import android.util.Log;
 import android.util.SparseArray;
@@ -45,7 +44,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Demonstrates two simple complications in a watch face.
  */
-public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
+public class WatchFaceService extends CanvasWatchFaceService {
     private static final String TAG = "AnalogWatchFace";
 
     /*
@@ -145,7 +144,7 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
             mCalendar = Calendar.getInstance();
 
             setWatchFaceStyle(
-                    new WatchFaceStyle.Builder(AnalogComplicationWatchFaceService.this)
+                    new WatchFaceStyle.Builder(WatchFaceService.this)
                             .setAcceptsTapEvents(true)
                             .setHideNotificationIndicator(true)
                             .build());
@@ -405,7 +404,7 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
         @Override
         public void onInterruptionFilterChanged(int interruptionFilter) {
             super.onInterruptionFilterChanged(interruptionFilter);
-            boolean inMuteMode = (interruptionFilter == WatchFaceService.INTERRUPTION_FILTER_NONE);
+            boolean inMuteMode = (interruptionFilter == android.support.wearable.watchface.WatchFaceService.INTERRUPTION_FILTER_NONE);
 
             /* Dim display in mute mode. */
             if (mMuteMode != inMuteMode) {
@@ -661,7 +660,7 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
             }
             mRegisteredTimeZoneReceiver = true;
             IntentFilter filter = new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED);
-            AnalogComplicationWatchFaceService.this.registerReceiver(mTimeZoneReceiver, filter);
+            WatchFaceService.this.registerReceiver(mTimeZoneReceiver, filter);
         }
 
         private void unregisterReceiver() {
@@ -669,7 +668,7 @@ public class AnalogComplicationWatchFaceService extends CanvasWatchFaceService {
                 return;
             }
             mRegisteredTimeZoneReceiver = false;
-            AnalogComplicationWatchFaceService.this.unregisterReceiver(mTimeZoneReceiver);
+            WatchFaceService.this.unregisterReceiver(mTimeZoneReceiver);
         }
 
         /**

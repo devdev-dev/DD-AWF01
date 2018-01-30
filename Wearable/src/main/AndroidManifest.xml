@@ -45,7 +45,7 @@
             android:required="false"/>
 
         <service
-            android:name=".AnalogComplicationWatchFaceService"
+            android:name=".WatchFaceService"
             android:enabled="true"
             android:label="@string/analog_complication"
             android:permission="android.permission.BIND_WALLPAPER">

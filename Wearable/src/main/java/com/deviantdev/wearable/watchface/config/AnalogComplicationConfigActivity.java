@@ -24,12 +24,12 @@ import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.ProviderChooserIntent;
 import android.util.Log;
 
-import com.deviantdev.wearable.watchface.AnalogComplicationWatchFaceService;
+import com.deviantdev.wearable.watchface.WatchFaceService;
 import com.deviantdev.wearable.watchface.R;
 import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData;
 
 /**
- * The watch-side config activity for {@link AnalogComplicationWatchFaceService}, which
+ * The watch-side config activity for {@link WatchFaceService}, which
  * allows for setting the left and right complications of watch face along with the second's marker
  * color, background color, unread notifications toggle, and background complication image.
  */
