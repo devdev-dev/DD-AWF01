@@ -71,7 +71,7 @@
 
         <activity android:name="android.support.wearable.complications.ComplicationHelperActivity"/>
         <activity
-            android:name="com.deviantdev.wearable.watchface.config.AnalogComplicationConfigActivity"
+            android:name="com.deviantdev.wearable.watchface.config.list.AnalogComplicationConfigActivity"
             android:label="@string/analog_complication_config">
             <intent-filter>
                 <action android:name="com.deviantdev.wearable.watchface.CONFIG_COMPLICATION_SIMPLE"/>
@@ -119,6 +119,6 @@
         </service>
         <receiver android:name="com.deviantdev.wearable.watchface.provider.ComplicationToggleReceiver"/>
 
-        <activity android:name="com.deviantdev.wearable.watchface.config.ColorSelectionActivity"/>
+        <activity android:name="com.deviantdev.wearable.watchface.config.color.ColorSelectionActivity"/>
     </application>
 </manifest>

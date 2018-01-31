@@ -21,11 +21,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 
 import com.deviantdev.wearable.watchface.R;
-import com.deviantdev.wearable.watchface.WatchFacePreferences;
 import com.deviantdev.wearable.watchface.WatchFaceService;
-import com.deviantdev.wearable.watchface.config.AnalogComplicationConfigActivity;
-import com.deviantdev.wearable.watchface.config.AnalogComplicationConfigRecyclerViewAdapter;
-import com.deviantdev.wearable.watchface.config.ColorSelectionActivity;
+import com.deviantdev.wearable.watchface.config.list.AnalogComplicationConfigActivity;
+import com.deviantdev.wearable.watchface.config.list.AnalogComplicationConfigRecyclerViewAdapter;
+import com.deviantdev.wearable.watchface.config.color.ColorSelectionActivity;
 
 import java.util.ArrayList;
 
@@ -99,13 +98,13 @@ public class AnalogComplicationConfigData {
         // Data for highlight/marker (second hand) color UX in settings Activity.
         ConfigItemType markerColorConfigItem = new ColorConfigItem(
                 context.getString(R.string.config_marker_color_label), R.drawable.icn_styles,
-                WatchFacePreferences.SAVED_MARKERS_COLOR, ColorSelectionActivity.class);
+                ColorSelectionActivity.class);
         settingsConfigData.add(markerColorConfigItem);
 
         // Data for Background color UX in settings Activity.
         ConfigItemType backgroundColorConfigItem = new ColorConfigItem(
                 context.getString(R.string.config_background_color_label), R.drawable.icn_styles,
-                WatchFacePreferences.SAVED_BACKGROUND_COLOR, ColorSelectionActivity.class);
+                ColorSelectionActivity.class);
         settingsConfigData.add(backgroundColorConfigItem);
 
         // Data for 'Unread Notifications' UX (toggle) in settings Activity.
@@ -182,14 +181,11 @@ public class AnalogComplicationConfigData {
 
         private String name;
         private int iconResourceId;
-        private String sharedPrefString;
         private Class<ColorSelectionActivity> activityToChoosePreference;
 
-        ColorConfigItem(String name, int iconResourceId, String sharedPrefString,
-                Class<ColorSelectionActivity> activity) {
+        ColorConfigItem(String name, int iconResourceId, Class<ColorSelectionActivity> activity) {
             this.name = name;
             this.iconResourceId = iconResourceId;
-            this.sharedPrefString = sharedPrefString;
             this.activityToChoosePreference = activity;
         }
 
@@ -199,10 +195,6 @@ public class AnalogComplicationConfigData {
 
         public int getIconResourceId() {
             return iconResourceId;
-        }
-
-        public String getSharedPrefString() {
-            return sharedPrefString;
         }
 
         public Class<ColorSelectionActivity> getActivityToChoosePreference() {

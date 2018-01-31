@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.deviantdev.wearable.watchface.config;
+package com.deviantdev.wearable.watchface.config.color;
 
 import android.app.Activity;
 import android.os.Bundle;

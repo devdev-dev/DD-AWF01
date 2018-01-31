@@ -140,7 +140,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
         // Pulls all user's preferences for watch face appearance.
         private void loadSavedPreferences() {
 
-            watchFacePreferences = new WatchFacePreferences();
+            watchFacePreferences = new WatchFacePreferences(getApplicationContext());
             watchFacePreferences.reloadSavedPreferences(getApplicationContext());
 
             if (watchFacePreferences.getBackgroundColor() == Color.WHITE) {

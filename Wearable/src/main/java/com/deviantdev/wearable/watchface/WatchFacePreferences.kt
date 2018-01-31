@@ -3,7 +3,7 @@ package com.deviantdev.wearable.watchface
 import android.content.Context
 import android.graphics.Color
 
-class WatchFacePreferences {
+class WatchFacePreferences(context: Context) {
 
     var backgroundColor = Color.BLACK
     var watchHandHighlightColor = Color.RED
@@ -12,6 +12,10 @@ class WatchFacePreferences {
 
     /** User's preference for if they want visual shown to indicate unread notifications. */
     var unreadNotifications: Boolean = true
+
+    init {
+        reloadSavedPreferences(context)
+    }
 
     fun reloadSavedPreferences(context: Context) {
         val sharedPreferences = context.getSharedPreferences(PREFERENCE_FILE_KEY,

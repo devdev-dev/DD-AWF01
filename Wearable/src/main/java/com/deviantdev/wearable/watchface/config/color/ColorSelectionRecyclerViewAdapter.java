@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.deviantdev.wearable.watchface.config;
+package com.deviantdev.wearable.watchface.config.color;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -39,19 +39,16 @@ import java.util.ArrayList;
 public class ColorSelectionRecyclerViewAdapter extends
         RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = ColorSelectionRecyclerViewAdapter.class.getSimpleName();
-    private final WatchFacePreferences watchFacePreferences;
     private ArrayList<Integer> mColorOptionsDataSet;
 
     ColorSelectionRecyclerViewAdapter(ArrayList<Integer> colorSettingsDataSet) {
         mColorOptionsDataSet = colorSettingsDataSet;
-        watchFacePreferences = new WatchFacePreferences();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder(): viewType: " + viewType);
 
-        watchFacePreferences.reloadSavedPreferences(parent.getContext());
         return new ColorViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.color_config_list_item,
                         parent, false));
@@ -99,6 +96,7 @@ public class ColorSelectionRecyclerViewAdapter extends
 
             Activity activity = (Activity) view.getContext();
 
+            WatchFacePreferences watchFacePreferences = new WatchFacePreferences(view.getContext());
             watchFacePreferences.setBackgroundColor(color);
             watchFacePreferences.commitChangedPreferences(view.getContext());
 
