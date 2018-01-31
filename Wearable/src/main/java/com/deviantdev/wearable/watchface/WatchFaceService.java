@@ -35,6 +35,7 @@ import android.support.wearable.watchface.WatchFaceStyle;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
+
 import com.deviantdev.wearable.watchface.WatchFaceComplicationConfiguration.Complication;
 
 import java.util.Calendar;
@@ -310,19 +311,10 @@ public class WatchFaceService extends CanvasWatchFaceService {
             Log.d(TAG, "OnTapCommand()");
             switch (tapType) {
                 case TAP_TYPE_TAP:
-
-                    // TODO Maybe that is a real problem after changing the complication structure
-                    // If your background complication is the first item in your array, you need
-                    // to walk backward through the array to make sure the tap isn't for a
-                    // complication above the background complication.
-                    for (int i = Complication.values().length - 1; i >= 0; i--) {
-                        int complicationId = Complication.values()[i].getId();
+                    for (Complication complication : Complication.Companion.valuesReverse()) {
                         ComplicationDrawable complicationDrawable =
-                                mComplicationDrawableSparseArray.get(complicationId);
-
-                        boolean successfulTap = complicationDrawable.onTap(x, y);
-
-                        if (successfulTap) {
+                                mComplicationDrawableSparseArray.get(complication.getId());
+                        if (complicationDrawable.onTap(x, y)) {
                             return;
                         }
                     }

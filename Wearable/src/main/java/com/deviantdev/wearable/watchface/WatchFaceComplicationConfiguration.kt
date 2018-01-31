@@ -8,7 +8,7 @@ class WatchFaceComplicationConfiguration {
      * @param id Unique id for each complication. The settings activity that supports allowing users to select their complication data provider requires numbers to be >= 0.
      */
     enum class Complication(val id: Int, val supportedTypes: IntArray) {
-        
+
         BACKGROUND(0, intArrayOf( //
                 ComplicationData.TYPE_LARGE_IMAGE)),
 
@@ -26,6 +26,10 @@ class WatchFaceComplicationConfiguration {
         companion object {
             fun getAllIds(): IntArray {
                 return enumValues<Complication>().map { it.id }.toIntArray()
+            }
+
+            fun valuesReverse(): Array<Complication> {
+                return values().reversedArray()
             }
         }
     }
