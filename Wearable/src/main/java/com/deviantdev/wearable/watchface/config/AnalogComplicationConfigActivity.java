@@ -24,8 +24,8 @@ import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.ProviderChooserIntent;
 import android.util.Log;
 
-import com.deviantdev.wearable.watchface.WatchFaceService;
 import com.deviantdev.wearable.watchface.R;
+import com.deviantdev.wearable.watchface.WatchFaceService;
 import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData;
 
 /**
@@ -35,21 +35,19 @@ import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData;
  */
 public class AnalogComplicationConfigActivity extends Activity {
 
-    private static final String TAG = AnalogComplicationConfigActivity.class.getSimpleName();
-
     static final int COMPLICATION_CONFIG_REQUEST_CODE = 1001;
     static final int UPDATE_COLORS_CONFIG_REQUEST_CODE = 1002;
-
+    private static final String TAG = AnalogComplicationConfigActivity.class.getSimpleName();
     private AnalogComplicationConfigRecyclerViewAdapter mAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate (Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_analog_complication_config);
 
-        mAdapter = new AnalogComplicationConfigRecyclerViewAdapter(
-                getApplicationContext(),
+        mAdapter = new AnalogComplicationConfigRecyclerViewAdapter(getApplicationContext(),
                 AnalogComplicationConfigData.getWatchFaceServiceClass(),
                 AnalogComplicationConfigData.getDataToPopulateAdapter(this));
 
@@ -68,10 +66,9 @@ public class AnalogComplicationConfigActivity extends Activity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == COMPLICATION_CONFIG_REQUEST_CODE
-                && resultCode == RESULT_OK) {
+        if (requestCode == COMPLICATION_CONFIG_REQUEST_CODE && resultCode == RESULT_OK) {
 
             // Retrieves information for selected Complication provider.
             ComplicationProviderInfo complicationProviderInfo =
@@ -82,8 +79,7 @@ public class AnalogComplicationConfigActivity extends Activity {
             // Note: complication id is saved and tracked in the adapter class.
             mAdapter.updateSelectedComplication(complicationProviderInfo);
 
-        } else if (requestCode == UPDATE_COLORS_CONFIG_REQUEST_CODE
-                && resultCode == RESULT_OK) {
+        } else if (requestCode == UPDATE_COLORS_CONFIG_REQUEST_CODE && resultCode == RESULT_OK) {
 
             // Updates highlight and background colors based on the user preference.
             mAdapter.updatePreviewColors();

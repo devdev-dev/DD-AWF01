@@ -43,10 +43,10 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.deviantdev.wearable.watchface.WatchFaceService;
 import com.deviantdev.wearable.watchface.R;
 import com.deviantdev.wearable.watchface.WatchFaceComplicationConfiguration.Complication;
 import com.deviantdev.wearable.watchface.WatchFacePreferences;
+import com.deviantdev.wearable.watchface.WatchFaceService;
 import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData.BackgroundComplicationConfigItem;
 import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData.ColorConfigItem;
 import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData.ConfigItemType;
@@ -111,9 +111,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     // notifyItemChanged(int position) to avoid flicker and re-inflating the view.
     private PreviewAndComplicationsViewHolder mPreviewAndComplicationsViewHolder;
 
-    AnalogComplicationConfigRecyclerViewAdapter(Context context,
-                                                Class watchFaceServiceClass,
-                                                ArrayList<ConfigItemType> settingsDataSet) {
+    AnalogComplicationConfigRecyclerViewAdapter(Context context, Class watchFaceServiceClass,
+            ArrayList<ConfigItemType> settingsDataSet) {
 
         mContext = context;
 
@@ -129,8 +128,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         mBackgroundComplicationId = Complication.BACKGROUND.getId();
 
-        mLeftComplicationId =Complication.LEFT.getId();
-        mRightComplicationId =Complication.RIGHT.getId();
+        mLeftComplicationId = Complication.LEFT.getId();
+        mRightComplicationId = Complication.RIGHT.getId();
 
         // Initialization of code to retrieve active complication data for the watch face.
         mProviderInfoRetriever =
@@ -139,7 +138,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder(): viewType: " + viewType);
 
         RecyclerView.ViewHolder viewHolder = null;
@@ -148,51 +147,34 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             case TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG:
                 // Need direct reference to watch face preview view holder to update watch face
                 // preview based on selections from the user.
-                mPreviewAndComplicationsViewHolder =
-                        new PreviewAndComplicationsViewHolder(
-                                LayoutInflater.from(parent.getContext())
-                                        .inflate(
-                                                R.layout.config_list_preview_and_complications_item,
-                                                parent,
-                                                false));
+                mPreviewAndComplicationsViewHolder = new PreviewAndComplicationsViewHolder(
+                        LayoutInflater.from(parent.getContext())
+                                .inflate(R.layout.config_list_preview_and_complications_item,
+                                        parent, false));
                 viewHolder = mPreviewAndComplicationsViewHolder;
                 break;
 
             case TYPE_MORE_OPTIONS:
-                viewHolder =
-                        new MoreOptionsViewHolder(
-                                LayoutInflater.from(parent.getContext())
-                                        .inflate(
-                                                R.layout.config_list_more_options_item,
-                                                parent,
-                                                false));
+                viewHolder = new MoreOptionsViewHolder(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.config_list_more_options_item, parent, false));
                 break;
 
             case TYPE_COLOR_CONFIG:
-                viewHolder =
-                        new ColorPickerViewHolder(
-                                LayoutInflater.from(parent.getContext())
-                                        .inflate(R.layout.config_list_color_item, parent, false));
+                viewHolder = new ColorPickerViewHolder(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.config_list_color_item, parent, false));
                 break;
 
             case TYPE_UNREAD_NOTIFICATION_CONFIG:
-                viewHolder =
-                        new UnreadNotificationViewHolder(
-                                LayoutInflater.from(parent.getContext())
-                                        .inflate(
-                                                R.layout.config_list_unread_notif_item,
-                                                parent,
-                                                false));
+                viewHolder = new UnreadNotificationViewHolder(
+                        LayoutInflater.from(parent.getContext())
+                                .inflate(R.layout.config_list_unread_notif_item, parent, false));
                 break;
 
             case TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG:
-                viewHolder =
-                        new BackgroundComplicationViewHolder(
-                                LayoutInflater.from(parent.getContext())
-                                        .inflate(
-                                                R.layout.config_list_background_complication_item,
-                                                parent,
-                                                false));
+                viewHolder = new BackgroundComplicationViewHolder(
+                        LayoutInflater.from(parent.getContext())
+                                .inflate(R.layout.config_list_background_complication_item, parent,
+                                        false));
                 break;
         }
 
@@ -200,7 +182,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder (RecyclerView.ViewHolder viewHolder, int position) {
         Log.d(TAG, "Element " + position + " set.");
 
         // Pulls all data required for creating the UX for the specific setting option.
@@ -216,8 +198,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
                 int defaultComplicationResourceId =
                         previewAndComplicationsConfigItem.getDefaultComplicationResourceId();
-                previewAndComplicationsViewHolder.setDefaultComplicationDrawable(
-                        defaultComplicationResourceId);
+                previewAndComplicationsViewHolder
+                        .setDefaultComplicationDrawable(defaultComplicationResourceId);
 
                 previewAndComplicationsViewHolder.initializesColorsAndComplications();
                 break;
@@ -258,8 +240,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
                 String unreadName = unreadConfigItem.getName();
 
-                unreadViewHolder.setIcons(
-                        unreadEnabledIconResourceId, unreadDisabledIconResourceId);
+                unreadViewHolder
+                        .setIcons(unreadEnabledIconResourceId, unreadDisabledIconResourceId);
                 unreadViewHolder.setName(unreadName);
                 break;
 
@@ -280,38 +262,38 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     }
 
     @Override
-    public int getItemViewType(int position) {
+    public int getItemViewType (int position) {
         ConfigItemType configItemType = mSettingsDataSet.get(position);
         return configItemType.getConfigType();
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount () {
         return mSettingsDataSet.size();
     }
 
     /**
      * Updates the selected complication id saved earlier with the new information.
      */
-    void updateSelectedComplication(ComplicationProviderInfo complicationProviderInfo) {
+    void updateSelectedComplication (ComplicationProviderInfo complicationProviderInfo) {
 
         Log.d(TAG, "updateSelectedComplication: " + mPreviewAndComplicationsViewHolder);
 
         // Checks if view is inflated and complication id is valid.
         if (mPreviewAndComplicationsViewHolder != null && mSelectedComplicationId >= 0) {
-            mPreviewAndComplicationsViewHolder.updateComplicationViews(
-                    mSelectedComplicationId, complicationProviderInfo);
+            mPreviewAndComplicationsViewHolder
+                    .updateComplicationViews(mSelectedComplicationId, complicationProviderInfo);
         }
     }
 
     @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+    public void onDetachedFromRecyclerView (RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
         // Required to release retriever for active complication data on detach.
         mProviderInfoRetriever.release();
     }
 
-    public void updatePreviewColors() {
+    public void updatePreviewColors () {
         Log.d(TAG, "updatePreviewColors(): " + mPreviewAndComplicationsViewHolder);
 
         if (mPreviewAndComplicationsViewHolder != null) {
@@ -340,31 +322,28 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         private boolean mBackgroundComplicationEnabled;
 
-        private PreviewAndComplicationsViewHolder(final View view) {
+        private PreviewAndComplicationsViewHolder (final View view) {
             super(view);
 
-            mWatchFaceBackgroundPreviewImageView =
-                    view.findViewById(R.id.watch_face_background);
+            mWatchFaceBackgroundPreviewImageView = view.findViewById(R.id.watch_face_background);
             mWatchFaceArmsAndTicksView = view.findViewById(R.id.watch_face_arms_and_ticks);
 
             // In our case, just the second arm.
             mWatchFaceHighlightPreviewView = view.findViewById(R.id.watch_face_highlight);
 
             // Sets up left complication preview.
-            mLeftComplicationBackground =
-                    view.findViewById(R.id.left_complication_background);
+            mLeftComplicationBackground = view.findViewById(R.id.left_complication_background);
             mLeftComplication = view.findViewById(R.id.left_complication);
             mLeftComplication.setOnClickListener(this);
 
             // Sets up right complication preview.
-            mRightComplicationBackground =
-                    view.findViewById(R.id.right_complication_background);
+            mRightComplicationBackground = view.findViewById(R.id.right_complication_background);
             mRightComplication = view.findViewById(R.id.right_complication);
             mRightComplication.setOnClickListener(this);
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick (View view) {
             if (view.equals(mLeftComplication)) {
                 Log.d(TAG, "Left Complication click()");
 
@@ -379,16 +358,16 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             }
         }
 
-        private void updateWatchFaceColors() {
+        private void updateWatchFaceColors () {
 
             // Only update background colors for preview if background complications are disabled.
             if (!mBackgroundComplicationEnabled) {
 
                 PorterDuffColorFilter backgroundColorFilter =
-                        new PorterDuffColorFilter(watchFacePreferences.getBackgroundColor(), PorterDuff.Mode.SRC_ATOP);
+                        new PorterDuffColorFilter(watchFacePreferences.getBackgroundColor(),
+                                PorterDuff.Mode.SRC_ATOP);
 
-                mWatchFaceBackgroundPreviewImageView
-                        .getBackground()
+                mWatchFaceBackgroundPreviewImageView.getBackground()
                         .setColorFilter(backgroundColorFilter);
 
             } else {
@@ -402,15 +381,16 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
             // Updates highlight color (just second arm).
             PorterDuffColorFilter highlightColorFilter =
-                    new PorterDuffColorFilter(watchFacePreferences.getWatchHandHighlightColor(), PorterDuff.Mode.SRC_ATOP);
+                    new PorterDuffColorFilter(watchFacePreferences.getWatchHandHighlightColor(),
+                            PorterDuff.Mode.SRC_ATOP);
 
             mWatchFaceHighlightPreviewView.getBackground().setColorFilter(highlightColorFilter);
         }
 
         // Verifies the watch face supports the complication location, then launches the helper
         // class, so user can choose their complication data provider.
-        private void launchComplicationHelperActivity(
-                Activity currentActivity, Complication complication) {
+        private void launchComplicationHelperActivity (Activity currentActivity,
+                                                       Complication complication) {
 
             mSelectedComplicationId = complication.getId();
 
@@ -419,15 +399,11 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             if (mSelectedComplicationId >= 0) {
 
                 ComponentName watchFace =
-                        new ComponentName(
-                                currentActivity, WatchFaceService.class);
+                        new ComponentName(currentActivity, WatchFaceService.class);
 
-                currentActivity.startActivityForResult(
-                        ComplicationHelperActivity.createProviderChooserHelperIntent(
-                                currentActivity,
-                                watchFace,
-                                complication.getId(),
-                                complication.getSupportedTypes()),
+                currentActivity.startActivityForResult(ComplicationHelperActivity
+                                .createProviderChooserHelperIntent(currentActivity, watchFace,
+                                        complication.getId(), complication.getSupportedTypes()),
                         AnalogComplicationConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
 
             } else {
@@ -435,7 +411,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             }
         }
 
-        private void setDefaultComplicationDrawable(int resourceId) {
+        private void setDefaultComplicationDrawable (int resourceId) {
             Context context = mWatchFaceArmsAndTicksView.getContext();
             mDefaultComplicationDrawable = context.getDrawable(resourceId);
 
@@ -446,8 +422,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             mRightComplicationBackground.setVisibility(View.INVISIBLE);
         }
 
-        private void updateComplicationViews(
-                int watchFaceComplicationId, ComplicationProviderInfo complicationProviderInfo) {
+        private void updateComplicationViews (int watchFaceComplicationId,
+                                              ComplicationProviderInfo complicationProviderInfo) {
             Log.d(TAG, "updateComplicationViews(): id: " + watchFaceComplicationId);
             Log.d(TAG, "\tinfo: " + complicationProviderInfo);
 
@@ -460,25 +436,23 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                     PorterDuffColorFilter backgroundColorFilter =
                             new PorterDuffColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
 
-                    mWatchFaceBackgroundPreviewImageView
-                            .getBackground()
+                    mWatchFaceBackgroundPreviewImageView.getBackground()
                             .setColorFilter(backgroundColorFilter);
-                    mWatchFaceBackgroundPreviewImageView.setImageIcon(
-                            complicationProviderInfo.providerIcon);
+                    mWatchFaceBackgroundPreviewImageView
+                            .setImageIcon(complicationProviderInfo.providerIcon);
 
                 } else {
                     mBackgroundComplicationEnabled = false;
 
                     // Clears icon for background if it was present before.
-                    mWatchFaceBackgroundPreviewImageView.setImageResource(
-                            android.R.color.transparent);
+                    mWatchFaceBackgroundPreviewImageView
+                            .setImageResource(android.R.color.transparent);
 
                     PorterDuffColorFilter backgroundColorFilter =
-                            new PorterDuffColorFilter(
-                                    watchFacePreferences.getBackgroundColor(), PorterDuff.Mode.SRC_ATOP);
+                            new PorterDuffColorFilter(watchFacePreferences.getBackgroundColor(),
+                                    PorterDuff.Mode.SRC_ATOP);
 
-                    mWatchFaceBackgroundPreviewImageView
-                            .getBackground()
+                    mWatchFaceBackgroundPreviewImageView.getBackground()
                             .setColorFilter(backgroundColorFilter);
                 }
 
@@ -492,14 +466,13 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             }
         }
 
-        private void updateComplicationView(ComplicationProviderInfo complicationProviderInfo,
-                                            ImageButton button, ImageView background) {
+        private void updateComplicationView (ComplicationProviderInfo complicationProviderInfo,
+                                             ImageButton button, ImageView background) {
             if (complicationProviderInfo != null) {
                 button.setImageIcon(complicationProviderInfo.providerIcon);
-                button.setContentDescription(
-                        mContext.getString(R.string.edit_complication,
-                                complicationProviderInfo.appName + " " +
-                                        complicationProviderInfo.providerName));
+                button.setContentDescription(mContext.getString(R.string.edit_complication,
+                        complicationProviderInfo.appName + " " +
+                                complicationProviderInfo.providerName));
                 background.setVisibility(View.VISIBLE);
             } else {
                 button.setImageDrawable(mDefaultComplicationDrawable);
@@ -508,11 +481,12 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             }
         }
 
-        private void initializesColorsAndComplications() {
+        private void initializesColorsAndComplications () {
 
             // Initializes highlight color (just second arm and part of complications).
             PorterDuffColorFilter highlightColorFilter =
-                    new PorterDuffColorFilter(watchFacePreferences.getWatchHandHighlightColor(), PorterDuff.Mode.SRC_ATOP);
+                    new PorterDuffColorFilter(watchFacePreferences.getWatchHandHighlightColor(),
+                            PorterDuff.Mode.SRC_ATOP);
 
             mWatchFaceHighlightPreviewView.getBackground().setColorFilter(highlightColorFilter);
 
@@ -521,27 +495,22 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             PorterDuffColorFilter backgroundColorFilter =
                     new PorterDuffColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
 
-            mWatchFaceBackgroundPreviewImageView
-                    .getBackground()
+            mWatchFaceBackgroundPreviewImageView.getBackground()
                     .setColorFilter(backgroundColorFilter);
 
             final int[] complicationIds = Complication.Companion.getAllIds();
 
-            mProviderInfoRetriever.retrieveProviderInfo(
-                    new OnProviderInfoReceivedCallback() {
-                        @Override
-                        public void onProviderInfoReceived(
-                                int watchFaceComplicationId,
-                                @Nullable ComplicationProviderInfo complicationProviderInfo) {
+            mProviderInfoRetriever.retrieveProviderInfo(new OnProviderInfoReceivedCallback() {
+                @Override
+                public void onProviderInfoReceived (int watchFaceComplicationId,
+                                                    @Nullable ComplicationProviderInfo
+                                                            complicationProviderInfo) {
 
-                            Log.d(TAG, "onProviderInfoReceived: " + complicationProviderInfo);
+                    Log.d(TAG, "onProviderInfoReceived: " + complicationProviderInfo);
 
-                            updateComplicationViews(
-                                    watchFaceComplicationId, complicationProviderInfo);
-                        }
-                    },
-                    mWatchFaceComponentName,
-                    complicationIds);
+                    updateComplicationViews(watchFaceComplicationId, complicationProviderInfo);
+                }
+            }, mWatchFaceComponentName, complicationIds);
         }
     }
 
@@ -552,12 +521,12 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         private ImageView mMoreOptionsImageView;
 
-        private MoreOptionsViewHolder(View view) {
+        private MoreOptionsViewHolder (View view) {
             super(view);
             mMoreOptionsImageView = view.findViewById(R.id.more_options_image_view);
         }
 
-        public void setIcon(int resourceId) {
+        public void setIcon (int resourceId) {
             Context context = mMoreOptionsImageView.getContext();
             mMoreOptionsImageView.setImageDrawable(context.getDrawable(resourceId));
         }
@@ -575,33 +544,34 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         private Class<ColorSelectionActivity> mLaunchActivityToSelectColor;
 
-        private ColorPickerViewHolder(View view) {
+        private ColorPickerViewHolder (View view) {
             super(view);
 
             mAppearanceButton = view.findViewById(R.id.color_picker_button);
             view.setOnClickListener(this);
         }
 
-        public void setName(String name) {
+        public void setName (String name) {
             mAppearanceButton.setText(name);
         }
 
-        public void setIcon(int resourceId) {
+        public void setIcon (int resourceId) {
             Context context = mAppearanceButton.getContext();
-            mAppearanceButton.setCompoundDrawablesWithIntrinsicBounds(
-                    context.getDrawable(resourceId), null, null, null);
+            mAppearanceButton
+                    .setCompoundDrawablesWithIntrinsicBounds(context.getDrawable(resourceId), null,
+                            null, null);
         }
 
-        private void setSharedPrefString(String sharedPrefString) {
+        private void setSharedPrefString (String sharedPrefString) {
             mSharedPrefResourceString = sharedPrefString;
         }
 
-        private void setLaunchActivityToSelectColor(Class<ColorSelectionActivity> activity) {
+        private void setLaunchActivityToSelectColor (Class<ColorSelectionActivity> activity) {
             mLaunchActivityToSelectColor = activity;
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick (View view) {
             int position = getAdapterPosition();
             Log.d(TAG, "Complication onClick() position: " + position);
 
@@ -609,8 +579,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 Intent launchIntent = new Intent(view.getContext(), mLaunchActivityToSelectColor);
 
                 Activity activity = (Activity) view.getContext();
-                activity.startActivityForResult(
-                        launchIntent,
+                activity.startActivityForResult(launchIntent,
                         AnalogComplicationConfigActivity.UPDATE_COLORS_CONFIG_REQUEST_CODE);
             }
         }
@@ -628,18 +597,18 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         private int mEnabledIconResourceId;
         private int mDisabledIconResourceId;
 
-        private UnreadNotificationViewHolder(View view) {
+        private UnreadNotificationViewHolder (View view) {
             super(view);
 
             mUnreadNotificationSwitch = view.findViewById(R.id.unread_notification_switch);
             view.setOnClickListener(this);
         }
 
-        public void setName(String name) {
+        public void setName (String name) {
             mUnreadNotificationSwitch.setText(name);
         }
 
-        private void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
+        private void setIcons (int enabledIconResourceId, int disabledIconResourceId) {
 
             mEnabledIconResourceId = enabledIconResourceId;
             mDisabledIconResourceId = disabledIconResourceId;
@@ -651,7 +620,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                     context.getDrawable(mEnabledIconResourceId), null, null, null);
         }
 
-        private void updateIcon(Context context, Boolean currentState) {
+        private void updateIcon (Context context, Boolean currentState) {
             int currentIconResourceId;
 
             if (currentState) {
@@ -666,12 +635,13 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick (View view) {
             int position = getAdapterPosition();
             Log.d(TAG, "Complication onClick() position: " + position);
 
             // Since user clicked on a switch, new state should be opposite of current state.
-            watchFacePreferences.setUnreadNotifications(!watchFacePreferences.getUnreadNotifications());
+            watchFacePreferences
+                    .setUnreadNotifications(!watchFacePreferences.getUnreadNotifications());
             watchFacePreferences.commitChangedPreferences(view.getContext());
 
             updateIcon(view.getContext(), watchFacePreferences.getUnreadNotifications());
@@ -686,26 +656,26 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         private Button mBackgroundComplicationButton;
 
-        private BackgroundComplicationViewHolder(View view) {
+        private BackgroundComplicationViewHolder (View view) {
             super(view);
 
-            mBackgroundComplicationButton =
-                    view.findViewById(R.id.background_complication_button);
+            mBackgroundComplicationButton = view.findViewById(R.id.background_complication_button);
             view.setOnClickListener(this);
         }
 
-        public void setName(String name) {
+        public void setName (String name) {
             mBackgroundComplicationButton.setText(name);
         }
 
-        public void setIcon(int resourceId) {
+        public void setIcon (int resourceId) {
             Context context = mBackgroundComplicationButton.getContext();
-            mBackgroundComplicationButton.setCompoundDrawablesWithIntrinsicBounds(
-                    context.getDrawable(resourceId), null, null, null);
+            mBackgroundComplicationButton
+                    .setCompoundDrawablesWithIntrinsicBounds(context.getDrawable(resourceId), null,
+                            null, null);
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick (View view) {
             int position = getAdapterPosition();
             Log.d(TAG, "Background Complication onClick() position: " + position);
 
@@ -715,17 +685,13 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
             if (mSelectedComplicationId >= 0) {
 
-
                 ComponentName watchFace =
-                        new ComponentName(
-                                currentActivity, WatchFaceService.class);
+                        new ComponentName(currentActivity, WatchFaceService.class);
 
-                currentActivity.startActivityForResult(
-                        ComplicationHelperActivity.createProviderChooserHelperIntent(
-                                currentActivity,
-                                watchFace,
-                                Complication.BACKGROUND.getId(),
-                                Complication.BACKGROUND.getSupportedTypes()),
+                currentActivity.startActivityForResult(ComplicationHelperActivity
+                                .createProviderChooserHelperIntent(currentActivity, watchFace,
+                                        Complication.BACKGROUND.getId(),
+                                        Complication.BACKGROUND.getSupportedTypes()),
                         AnalogComplicationConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
 
             } else {

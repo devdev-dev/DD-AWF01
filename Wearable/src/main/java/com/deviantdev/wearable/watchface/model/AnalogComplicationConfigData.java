@@ -20,9 +20,9 @@ import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 
-import com.deviantdev.wearable.watchface.WatchFaceService;
 import com.deviantdev.wearable.watchface.R;
 import com.deviantdev.wearable.watchface.WatchFacePreferences;
+import com.deviantdev.wearable.watchface.WatchFaceService;
 import com.deviantdev.wearable.watchface.config.AnalogComplicationConfigActivity;
 import com.deviantdev.wearable.watchface.config.AnalogComplicationConfigRecyclerViewAdapter;
 import com.deviantdev.wearable.watchface.config.ColorSelectionActivity;
@@ -36,26 +36,25 @@ import java.util.ArrayList;
  */
 public class AnalogComplicationConfigData {
 
-
     /**
      * Interface all ConfigItems must implement so the {@link RecyclerView}'s Adapter associated
      * with the configuration activity knows what type of ViewHolder to inflate.
      */
     public interface ConfigItemType {
-        int getConfigType();
+        int getConfigType ();
     }
 
     /**
      * Returns Watch Face Service class associated with configuration Activity.
      */
-    public static Class getWatchFaceServiceClass() {
+    public static Class getWatchFaceServiceClass () {
         return WatchFaceService.class;
     }
 
     /**
      * Returns Material Design color options.
      */
-    public static ArrayList<Integer> getColorOptionsDataSet() {
+    public static ArrayList<Integer> getColorOptionsDataSet () {
         ArrayList<Integer> colorOptionsDataSet = new ArrayList<>();
         colorOptionsDataSet.add(Color.parseColor("#FFFFFF")); // White
 
@@ -91,7 +90,7 @@ public class AnalogComplicationConfigData {
      * Includes all data to populate each of the 5 different custom
      * {@link ViewHolder} types in {@link AnalogComplicationConfigRecyclerViewAdapter}.
      */
-    public static ArrayList<ConfigItemType> getDataToPopulateAdapter(Context context) {
+    public static ArrayList<ConfigItemType> getDataToPopulateAdapter (Context context) {
 
         ArrayList<ConfigItemType> settingsConfigData = new ArrayList<>();
 
@@ -107,28 +106,22 @@ public class AnalogComplicationConfigData {
 
         // Data for highlight/marker (second hand) color UX in settings Activity.
         ConfigItemType markerColorConfigItem =
-                new ColorConfigItem(
-                        context.getString(R.string.config_marker_color_label),
-                        R.drawable.icn_styles,
-                        WatchFacePreferences.SAVED_MARKERS_COLOR,
+                new ColorConfigItem(context.getString(R.string.config_marker_color_label),
+                        R.drawable.icn_styles, WatchFacePreferences.SAVED_MARKERS_COLOR,
                         ColorSelectionActivity.class);
         settingsConfigData.add(markerColorConfigItem);
 
         // Data for Background color UX in settings Activity.
         ConfigItemType backgroundColorConfigItem =
-                new ColorConfigItem(
-                        context.getString(R.string.config_background_color_label),
-                        R.drawable.icn_styles,
-                        WatchFacePreferences.SAVED_BACKGROUND_COLOR,
+                new ColorConfigItem(context.getString(R.string.config_background_color_label),
+                        R.drawable.icn_styles, WatchFacePreferences.SAVED_BACKGROUND_COLOR,
                         ColorSelectionActivity.class);
         settingsConfigData.add(backgroundColorConfigItem);
 
         // Data for 'Unread Notifications' UX (toggle) in settings Activity.
-        ConfigItemType unreadNotificationsConfigItem =
-                new UnreadNotificationConfigItem(
-                        context.getString(R.string.config_unread_notifications_label),
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp);
+        ConfigItemType unreadNotificationsConfigItem = new UnreadNotificationConfigItem(
+                context.getString(R.string.config_unread_notifications_label),
+                R.drawable.ic_notifications_white_24dp, R.drawable.ic_notifications_off_white_24dp);
         settingsConfigData.add(unreadNotificationsConfigItem);
 
         // Data for background complications UX in settings Activity.
@@ -149,17 +142,18 @@ public class AnalogComplicationConfigData {
 
         private int defaultComplicationResourceId;
 
-        PreviewAndComplicationsConfigItem(int defaultComplicationResourceId) {
+        PreviewAndComplicationsConfigItem (int defaultComplicationResourceId) {
             this.defaultComplicationResourceId = defaultComplicationResourceId;
         }
 
-        public int getDefaultComplicationResourceId() {
+        public int getDefaultComplicationResourceId () {
             return defaultComplicationResourceId;
         }
 
         @Override
-        public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG;
+        public int getConfigType () {
+            return AnalogComplicationConfigRecyclerViewAdapter
+                    .TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG;
         }
     }
 
@@ -170,16 +164,16 @@ public class AnalogComplicationConfigData {
 
         private int iconResourceId;
 
-        MoreOptionsConfigItem(int iconResourceId) {
+        MoreOptionsConfigItem (int iconResourceId) {
             this.iconResourceId = iconResourceId;
         }
 
-        public int getIconResourceId() {
+        public int getIconResourceId () {
             return iconResourceId;
         }
 
         @Override
-        public int getConfigType() {
+        public int getConfigType () {
             return AnalogComplicationConfigRecyclerViewAdapter.TYPE_MORE_OPTIONS;
         }
     }
@@ -194,35 +188,32 @@ public class AnalogComplicationConfigData {
         private String sharedPrefString;
         private Class<ColorSelectionActivity> activityToChoosePreference;
 
-        ColorConfigItem(
-                String name,
-                int iconResourceId,
-                String sharedPrefString,
-                Class<ColorSelectionActivity> activity) {
+        ColorConfigItem (String name, int iconResourceId, String sharedPrefString,
+                         Class<ColorSelectionActivity> activity) {
             this.name = name;
             this.iconResourceId = iconResourceId;
             this.sharedPrefString = sharedPrefString;
             this.activityToChoosePreference = activity;
         }
 
-        public String getName() {
+        public String getName () {
             return name;
         }
 
-        public int getIconResourceId() {
+        public int getIconResourceId () {
             return iconResourceId;
         }
 
-        public String getSharedPrefString() {
+        public String getSharedPrefString () {
             return sharedPrefString;
         }
 
-        public Class<ColorSelectionActivity> getActivityToChoosePreference() {
+        public Class<ColorSelectionActivity> getActivityToChoosePreference () {
             return activityToChoosePreference;
         }
 
         @Override
-        public int getConfigType() {
+        public int getConfigType () {
             return AnalogComplicationConfigRecyclerViewAdapter.TYPE_COLOR_CONFIG;
         }
     }
@@ -236,29 +227,27 @@ public class AnalogComplicationConfigData {
         private int iconEnabledResourceId;
         private int iconDisabledResourceId;
 
-        UnreadNotificationConfigItem(
-                String name,
-                int iconEnabledResourceId,
-                int iconDisabledResourceId) {
+        UnreadNotificationConfigItem (String name, int iconEnabledResourceId,
+                                      int iconDisabledResourceId) {
             this.name = name;
             this.iconEnabledResourceId = iconEnabledResourceId;
             this.iconDisabledResourceId = iconDisabledResourceId;
         }
 
-        public String getName() {
+        public String getName () {
             return name;
         }
 
-        public int getIconEnabledResourceId() {
+        public int getIconEnabledResourceId () {
             return iconEnabledResourceId;
         }
 
-        public int getIconDisabledResourceId() {
+        public int getIconDisabledResourceId () {
             return iconDisabledResourceId;
         }
 
         @Override
-        public int getConfigType() {
+        public int getConfigType () {
             return AnalogComplicationConfigRecyclerViewAdapter.TYPE_UNREAD_NOTIFICATION_CONFIG;
         }
     }
@@ -271,25 +260,24 @@ public class AnalogComplicationConfigData {
         private String name;
         private int iconResourceId;
 
-        BackgroundComplicationConfigItem(
-                String name,
-                int iconResourceId) {
+        BackgroundComplicationConfigItem (String name, int iconResourceId) {
 
             this.name = name;
             this.iconResourceId = iconResourceId;
         }
 
-        public String getName() {
+        public String getName () {
             return name;
         }
 
-        public int getIconResourceId() {
+        public int getIconResourceId () {
             return iconResourceId;
         }
 
         @Override
-        public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG;
+        public int getConfigType () {
+            return AnalogComplicationConfigRecyclerViewAdapter
+                    .TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG;
         }
     }
 }

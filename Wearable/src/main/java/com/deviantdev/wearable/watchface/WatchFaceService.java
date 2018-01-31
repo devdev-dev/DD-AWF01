@@ -55,7 +55,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
 
     @Override
-    public Engine onCreateEngine() {
+    public Engine onCreateEngine () {
         return new Engine();
     }
 
@@ -110,34 +110,31 @@ public class WatchFaceService extends CanvasWatchFaceService {
 
         private int mNumberOfUnreadNotifications = 0;
 
-        private final BroadcastReceiver mTimeZoneReceiver =
-                new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        mCalendar.setTimeZone(TimeZone.getDefault());
-                        invalidate();
-                    }
-                };
+        private final BroadcastReceiver mTimeZoneReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive (Context context, Intent intent) {
+                mCalendar.setTimeZone(TimeZone.getDefault());
+                invalidate();
+            }
+        };
 
         // Handler to update the time once a second in interactive mode.
         @SuppressLint("HandlerLeak")
-        private final Handler mUpdateTimeHandler =
-                new Handler() {
-                    @Override
-                    public void handleMessage(Message message) {
-                        invalidate();
-                        if (shouldTimerBeRunning()) {
-                            long timeMs = System.currentTimeMillis();
-                            long delayMs =
-                                    INTERACTIVE_UPDATE_RATE_MS
-                                            - (timeMs % INTERACTIVE_UPDATE_RATE_MS);
-                            mUpdateTimeHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME, delayMs);
-                        }
-                    }
-                };
+        private final Handler mUpdateTimeHandler = new Handler() {
+            @Override
+            public void handleMessage (Message message) {
+                invalidate();
+                if (shouldTimerBeRunning()) {
+                    long timeMs = System.currentTimeMillis();
+                    long delayMs =
+                            INTERACTIVE_UPDATE_RATE_MS - (timeMs % INTERACTIVE_UPDATE_RATE_MS);
+                    mUpdateTimeHandler.sendEmptyMessageDelayed(MSG_UPDATE_TIME, delayMs);
+                }
+            }
+        };
 
         @Override
-        public void onCreate(SurfaceHolder holder) {
+        public void onCreate (SurfaceHolder holder) {
             Log.d(TAG, "onCreate");
 
             super.onCreate(holder);
@@ -145,10 +142,8 @@ public class WatchFaceService extends CanvasWatchFaceService {
             mCalendar = Calendar.getInstance();
 
             setWatchFaceStyle(
-                    new WatchFaceStyle.Builder(WatchFaceService.this)
-                            .setAcceptsTapEvents(true)
-                            .setHideNotificationIndicator(true)
-                            .build());
+                    new WatchFaceStyle.Builder(WatchFaceService.this).setAcceptsTapEvents(true)
+                            .setHideNotificationIndicator(true).build());
 
             loadSavedPreferences();
             initializeComplicationsAndBackground();
@@ -156,7 +151,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
         // Pulls all user's preferences for watch face appearance.
-        private void loadSavedPreferences() {
+        private void loadSavedPreferences () {
 
             watchFacePreferences = new WatchFacePreferences();
             watchFacePreferences.reloadSavedPreferences(getApplicationContext());
@@ -170,7 +165,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
             }
         }
 
-        private void initializeComplicationsAndBackground() {
+        private void initializeComplicationsAndBackground () {
             Log.d(TAG, "initializeComplications()");
 
             // Initialize background color (in case background complication is inactive).
@@ -193,12 +188,15 @@ public class WatchFaceService extends CanvasWatchFaceService {
 
             mComplicationDrawableSparseArray = new SparseArray<>(Complication.values().length);
 
-            mComplicationDrawableSparseArray.put(Complication.LEFT.getId(), leftComplicationDrawable);
-            mComplicationDrawableSparseArray.put(Complication.RIGHT.getId(), rightComplicationDrawable);
-            mComplicationDrawableSparseArray.put(
-                    Complication.BACKGROUND.getId(), backgroundComplicationDrawable);
+            mComplicationDrawableSparseArray
+                    .put(Complication.LEFT.getId(), leftComplicationDrawable);
+            mComplicationDrawableSparseArray
+                    .put(Complication.RIGHT.getId(), rightComplicationDrawable);
+            mComplicationDrawableSparseArray
+                    .put(Complication.BACKGROUND.getId(), backgroundComplicationDrawable);
 
-            setComplicationsActiveAndAmbientColors(watchFacePreferences.getWatchHandHighlightColor());
+            setComplicationsActiveAndAmbientColors(
+                    watchFacePreferences.getWatchHandHighlightColor());
             setActiveComplications(Complication.Companion.getAllIds());
         }
 
@@ -209,7 +207,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
          * the active/ambient colors, we only set the colors twice. Once at initialization and
          * again if the user changes the highlight color via AnalogComplicationConfigActivity.
          */
-        private void setComplicationsActiveAndAmbientColors(int primaryComplicationColor) {
+        private void setComplicationsActiveAndAmbientColors (int primaryComplicationColor) {
             ComplicationDrawable complicationDrawable;
 
             for (Complication complication : Complication.values()) {
@@ -231,7 +229,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
             }
         }
 
-        private void initializeWatchFace() {
+        private void initializeWatchFace () {
 
             mHourPaint = new Paint();
             mHourPaint.setColor(mWatchHandAndComplicationsColor);
@@ -263,13 +261,13 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
         @Override
-        public void onDestroy() {
+        public void onDestroy () {
             mUpdateTimeHandler.removeMessages(MSG_UPDATE_TIME);
             super.onDestroy();
         }
 
         @Override
-        public void onPropertiesChanged(Bundle properties) {
+        public void onPropertiesChanged (Bundle properties) {
             super.onPropertiesChanged(properties);
             Log.d(TAG, "onPropertiesChanged: low-bit ambient = " + mLowBitAmbient);
 
@@ -292,7 +290,8 @@ public class WatchFaceService extends CanvasWatchFaceService {
          * Called when there is updated data for a complication id.
          */
         @Override
-        public void onComplicationDataUpdate(int complicationId, ComplicationData complicationData) {
+        public void onComplicationDataUpdate (int complicationId,
+                                              ComplicationData complicationData) {
             Log.d(TAG, "onComplicationDataUpdate() id: " + complicationId);
 
             // Adds/updates active complication data in the array.
@@ -307,7 +306,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
         @Override
-        public void onTapCommand(int tapType, int x, int y, long eventTime) {
+        public void onTapCommand (int tapType, int x, int y, long eventTime) {
             Log.d(TAG, "OnTapCommand()");
             switch (tapType) {
                 case TAP_TYPE_TAP:
@@ -323,13 +322,13 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
         @Override
-        public void onTimeTick() {
+        public void onTimeTick () {
             super.onTimeTick();
             invalidate();
         }
 
         @Override
-        public void onAmbientModeChanged(boolean inAmbientMode) {
+        public void onAmbientModeChanged (boolean inAmbientMode) {
             super.onAmbientModeChanged(inAmbientMode);
             Log.d(TAG, "onAmbientModeChanged: " + inAmbientMode);
 
@@ -351,7 +350,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
             updateTimer();
         }
 
-        private void updateWatchPaintStyles() {
+        private void updateWatchPaintStyles () {
             if (mAmbient) {
 
                 mBackgroundPaint.setColor(Color.BLACK);
@@ -379,7 +378,8 @@ public class WatchFaceService extends CanvasWatchFaceService {
                 mMinutePaint.setColor(mWatchHandAndComplicationsColor);
                 mTickAndCirclePaint.setColor(mWatchHandAndComplicationsColor);
 
-                mSecondAndHighlightPaint.setColor(watchFacePreferences.getWatchHandHighlightColor());
+                mSecondAndHighlightPaint
+                        .setColor(watchFacePreferences.getWatchHandHighlightColor());
 
                 mHourPaint.setAntiAlias(true);
                 mMinutePaint.setAntiAlias(true);
@@ -394,9 +394,10 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
         @Override
-        public void onInterruptionFilterChanged(int interruptionFilter) {
+        public void onInterruptionFilterChanged (int interruptionFilter) {
             super.onInterruptionFilterChanged(interruptionFilter);
-            boolean inMuteMode = (interruptionFilter == android.support.wearable.watchface.WatchFaceService.INTERRUPTION_FILTER_NONE);
+            boolean inMuteMode = (interruptionFilter ==
+                    android.support.wearable.watchface.WatchFaceService.INTERRUPTION_FILTER_NONE);
 
             /* Dim display in mute mode. */
             if (mMuteMode != inMuteMode) {
@@ -409,7 +410,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
         @Override
-        public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        public void onSurfaceChanged (SurfaceHolder holder, int format, int width, int height) {
             super.onSurfaceChanged(holder, format, width, height);
 
             /*
@@ -445,9 +446,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
 
             Rect leftBounds =
                     // Left, Top, Right, Bottom
-                    new Rect(
-                            horizontalOffset,
-                            verticalOffset,
+                    new Rect(horizontalOffset, verticalOffset,
                             (horizontalOffset + sizeOfComplication),
                             (verticalOffset + sizeOfComplication));
 
@@ -457,9 +456,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
 
             Rect rightBounds =
                     // Left, Top, Right, Bottom
-                    new Rect(
-                            (midpointOfScreen + horizontalOffset),
-                            verticalOffset,
+                    new Rect((midpointOfScreen + horizontalOffset), verticalOffset,
                             (midpointOfScreen + horizontalOffset + sizeOfComplication),
                             (verticalOffset + sizeOfComplication));
 
@@ -477,7 +474,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
         @Override
-        public void onDraw(Canvas canvas, Rect bounds) {
+        public void onDraw (Canvas canvas, Rect bounds) {
             long now = System.currentTimeMillis();
             mCalendar.setTimeInMillis(now);
 
@@ -487,9 +484,10 @@ public class WatchFaceService extends CanvasWatchFaceService {
             drawWatchFace(canvas);
         }
 
-        private void drawUnreadNotificationIcon(Canvas canvas) {
+        private void drawUnreadNotificationIcon (Canvas canvas) {
 
-            if (watchFacePreferences.getUnreadNotifications() && (mNumberOfUnreadNotifications > 0)) {
+            if (watchFacePreferences.getUnreadNotifications() &&
+                    (mNumberOfUnreadNotifications > 0)) {
 
                 int width = canvas.getWidth();
                 int height = canvas.getHeight();
@@ -506,7 +504,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
             }
         }
 
-        private void drawBackground(Canvas canvas) {
+        private void drawBackground (Canvas canvas) {
 
             if (mAmbient && (mLowBitAmbient || mBurnInProtection)) {
                 canvas.drawColor(Color.BLACK);
@@ -516,7 +514,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
             }
         }
 
-        private void drawComplications(Canvas canvas, long currentTimeMillis) {
+        private void drawComplications (Canvas canvas, long currentTimeMillis) {
             int complicationId;
             ComplicationDrawable complicationDrawable;
 
@@ -528,7 +526,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
             }
         }
 
-        private void drawWatchFace(Canvas canvas) {
+        private void drawWatchFace (Canvas canvas) {
             /*
              * Draw ticks. Usually you will want to bake this directly into the photo, but in
              * cases where you want to allow users to select their own photos, this dynamically
@@ -542,12 +540,8 @@ public class WatchFaceService extends CanvasWatchFaceService {
                 float innerY = (float) -Math.cos(tickRot) * innerTickRadius;
                 float outerX = (float) Math.sin(tickRot) * outerTickRadius;
                 float outerY = (float) -Math.cos(tickRot) * outerTickRadius;
-                canvas.drawLine(
-                        mCenterX + innerX,
-                        mCenterY + innerY,
-                        mCenterX + outerX,
-                        mCenterY + outerY,
-                        mTickAndCirclePaint);
+                canvas.drawLine(mCenterX + innerX, mCenterY + innerY, mCenterX + outerX,
+                        mCenterY + outerY, mTickAndCirclePaint);
             }
 
             /*
@@ -569,20 +563,12 @@ public class WatchFaceService extends CanvasWatchFaceService {
             canvas.save();
 
             canvas.rotate(hoursRotation, mCenterX, mCenterY);
-            canvas.drawLine(
-                    mCenterX,
-                    mCenterY - CENTER_GAP_AND_CIRCLE_RADIUS,
-                    mCenterX,
-                    mCenterY - mHourHandLength,
-                    mHourPaint);
+            canvas.drawLine(mCenterX, mCenterY - CENTER_GAP_AND_CIRCLE_RADIUS, mCenterX,
+                    mCenterY - mHourHandLength, mHourPaint);
 
             canvas.rotate(minutesRotation - hoursRotation, mCenterX, mCenterY);
-            canvas.drawLine(
-                    mCenterX,
-                    mCenterY - CENTER_GAP_AND_CIRCLE_RADIUS,
-                    mCenterX,
-                    mCenterY - mMinuteHandLength,
-                    mMinutePaint);
+            canvas.drawLine(mCenterX, mCenterY - CENTER_GAP_AND_CIRCLE_RADIUS, mCenterX,
+                    mCenterY - mMinuteHandLength, mMinutePaint);
 
             /*
              * Ensure the "seconds" hand is drawn only when we are in interactive mode.
@@ -590,22 +576,18 @@ public class WatchFaceService extends CanvasWatchFaceService {
              */
             if (!mAmbient) {
                 canvas.rotate(secondsRotation - minutesRotation, mCenterX, mCenterY);
-                canvas.drawLine(
-                        mCenterX,
-                        mCenterY - CENTER_GAP_AND_CIRCLE_RADIUS,
-                        mCenterX,
-                        mCenterY - mSecondHandLength,
-                        mSecondAndHighlightPaint);
+                canvas.drawLine(mCenterX, mCenterY - CENTER_GAP_AND_CIRCLE_RADIUS, mCenterX,
+                        mCenterY - mSecondHandLength, mSecondAndHighlightPaint);
             }
-            canvas.drawCircle(
-                    mCenterX, mCenterY, CENTER_GAP_AND_CIRCLE_RADIUS, mTickAndCirclePaint);
+            canvas.drawCircle(mCenterX, mCenterY, CENTER_GAP_AND_CIRCLE_RADIUS,
+                    mTickAndCirclePaint);
 
             /* Restore the canvas' original orientation. */
             canvas.restore();
         }
 
         @Override
-        public void onVisibilityChanged(boolean visible) {
+        public void onVisibilityChanged (boolean visible) {
             super.onVisibilityChanged(visible);
 
             if (visible) {
@@ -618,7 +600,8 @@ public class WatchFaceService extends CanvasWatchFaceService {
                 // the active/ambient colors, we only need to update the complications' colors when
                 // the user actually makes a change to the highlight color, not when the watch goes
                 // in and out of ambient mode.
-                setComplicationsActiveAndAmbientColors(watchFacePreferences.getWatchHandHighlightColor());
+                setComplicationsActiveAndAmbientColors(
+                        watchFacePreferences.getWatchHandHighlightColor());
                 updateWatchPaintStyles();
 
                 registerReceiver();
@@ -634,7 +617,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
         @Override
-        public void onUnreadCountChanged(int count) {
+        public void onUnreadCountChanged (int count) {
             Log.d(TAG, "onUnreadCountChanged(): " + count);
 
             if (watchFacePreferences.getUnreadNotifications()) {
@@ -646,7 +629,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
             }
         }
 
-        private void registerReceiver() {
+        private void registerReceiver () {
             if (mRegisteredTimeZoneReceiver) {
                 return;
             }
@@ -655,7 +638,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
             WatchFaceService.this.registerReceiver(mTimeZoneReceiver, filter);
         }
 
-        private void unregisterReceiver() {
+        private void unregisterReceiver () {
             if (!mRegisteredTimeZoneReceiver) {
                 return;
             }
@@ -666,7 +649,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
         /**
          * Starts/stops the {@link #mUpdateTimeHandler} timer based on the state of the watch face.
          */
-        private void updateTimer() {
+        private void updateTimer () {
             mUpdateTimeHandler.removeMessages(MSG_UPDATE_TIME);
             if (shouldTimerBeRunning()) {
                 mUpdateTimeHandler.sendEmptyMessage(MSG_UPDATE_TIME);
@@ -677,7 +660,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
          * Returns whether the {@link #mUpdateTimeHandler} timer should be running. The timer should
          * only run in active mode.
          */
-        private boolean shouldTimerBeRunning() {
+        private boolean shouldTimerBeRunning () {
             return isVisible() && !mAmbient;
         }
     }
