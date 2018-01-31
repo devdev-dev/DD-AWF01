@@ -378,7 +378,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter extends
             currentActivity.startActivityForResult(
                     ComplicationHelperActivity.createProviderChooserHelperIntent(currentActivity,
                             watchFace, complication.getId(), complication.getSupportedTypes()),
-                    AnalogComplicationConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
+                    AnalogComplicationConfigActivity.Companion.getCOMPLICATION_CONFIG_REQUEST_CODE());
 
         }
 
