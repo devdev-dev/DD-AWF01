@@ -36,30 +36,29 @@ import java.util.ArrayList;
  * {@link SharedPreferences} value passed to the class.
  */
 
-public class ColorSelectionRecyclerViewAdapter
-        extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ColorSelectionRecyclerViewAdapter extends
+        RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = ColorSelectionRecyclerViewAdapter.class.getSimpleName();
-
+    private final WatchFacePreferences watchFacePreferences;
     private ArrayList<Integer> mColorOptionsDataSet;
 
-    private final WatchFacePreferences watchFacePreferences;
-
-    ColorSelectionRecyclerViewAdapter (ArrayList<Integer> colorSettingsDataSet) {
+    ColorSelectionRecyclerViewAdapter(ArrayList<Integer> colorSettingsDataSet) {
         mColorOptionsDataSet = colorSettingsDataSet;
         watchFacePreferences = new WatchFacePreferences();
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder(): viewType: " + viewType);
 
         watchFacePreferences.reloadSavedPreferences(parent.getContext());
-        return new ColorViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.color_config_list_item, parent, false));
+        return new ColorViewHolder(
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.color_config_list_item,
+                        parent, false));
     }
 
     @Override
-    public void onBindViewHolder (RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         Log.d(TAG, "Element " + position + " set.");
 
         Integer color = mColorOptionsDataSet.get(position);
@@ -68,7 +67,7 @@ public class ColorSelectionRecyclerViewAdapter
     }
 
     @Override
-    public int getItemCount () {
+    public int getItemCount() {
         return mColorOptionsDataSet.size();
     }
 
@@ -81,18 +80,18 @@ public class ColorSelectionRecyclerViewAdapter
         @SuppressWarnings("deprecation")
         private CircledImageView mColorCircleImageView;
 
-        ColorViewHolder (final View view) {
+        ColorViewHolder(final View view) {
             super(view);
             mColorCircleImageView = view.findViewById(R.id.color);
             view.setOnClickListener(this);
         }
 
-        public void setColor (int color) {
+        public void setColor(int color) {
             mColorCircleImageView.setCircleColor(color);
         }
 
         @Override
-        public void onClick (View view) {
+        public void onClick(View view) {
             int position = getAdapterPosition();
             Integer color = mColorOptionsDataSet.get(position);
 

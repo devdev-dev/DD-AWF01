@@ -41,7 +41,7 @@ public class AnalogComplicationConfigActivity extends Activity {
     private AnalogComplicationConfigRecyclerViewAdapter mAdapter;
 
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
@@ -66,13 +66,13 @@ public class AnalogComplicationConfigActivity extends Activity {
     }
 
     @Override
-    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == COMPLICATION_CONFIG_REQUEST_CODE && resultCode == RESULT_OK) {
 
             // Retrieves information for selected Complication provider.
-            ComplicationProviderInfo complicationProviderInfo =
-                    data.getParcelableExtra(ProviderChooserIntent.EXTRA_PROVIDER_INFO);
+            ComplicationProviderInfo complicationProviderInfo = data.getParcelableExtra(
+                    ProviderChooserIntent.EXTRA_PROVIDER_INFO);
             Log.d(TAG, "Provider: " + complicationProviderInfo);
 
             // Updates preview with new complication information for selected complication id.

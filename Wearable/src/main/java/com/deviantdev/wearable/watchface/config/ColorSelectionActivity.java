@@ -31,16 +31,15 @@ import com.deviantdev.wearable.watchface.model.AnalogComplicationConfigData;
 public class ColorSelectionActivity extends Activity {
 
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_selection_config);
 
-        ColorSelectionRecyclerViewAdapter mColorSelectionRecyclerViewAdapter =
-                new ColorSelectionRecyclerViewAdapter(
-                        AnalogComplicationConfigData.getColorOptionsDataSet());
+        ColorSelectionRecyclerViewAdapter mColorSelectionRecyclerViewAdapter = new ColorSelectionRecyclerViewAdapter(
+                AnalogComplicationConfigData.getColorOptionsDataSet());
 
-        WearableRecyclerView mConfigAppearanceWearableRecyclerView =
-                findViewById(R.id.wearable_recycler_view);
+        WearableRecyclerView mConfigAppearanceWearableRecyclerView = findViewById(
+                R.id.wearable_recycler_view);
 
         // Aligns the first and last items on the list vertically centered on the screen.
         mConfigAppearanceWearableRecyclerView.setEdgeItemsCenteringEnabled(true);
