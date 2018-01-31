@@ -149,7 +149,7 @@ public class AnalogComplicationConfigData {
 
         @Override
         public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG;
+            return AnalogComplicationConfigRecyclerViewAdapter.Companion.getTYPE_PREVIEW_AND_COMPLICATIONS_CONFIG();
         }
     }
 
@@ -170,7 +170,7 @@ public class AnalogComplicationConfigData {
 
         @Override
         public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_MORE_OPTIONS;
+            return AnalogComplicationConfigRecyclerViewAdapter.Companion.getTYPE_MORE_OPTIONS();
         }
     }
 
@@ -203,7 +203,7 @@ public class AnalogComplicationConfigData {
 
         @Override
         public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_COLOR_CONFIG;
+            return AnalogComplicationConfigRecyclerViewAdapter.Companion.getTYPE_COLOR_CONFIG();
         }
     }
 
@@ -237,7 +237,7 @@ public class AnalogComplicationConfigData {
 
         @Override
         public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_UNREAD_NOTIFICATION_CONFIG;
+            return AnalogComplicationConfigRecyclerViewAdapter.Companion.getTYPE_UNREAD_NOTIFICATION_CONFIG();
         }
     }
 
@@ -265,7 +265,7 @@ public class AnalogComplicationConfigData {
 
         @Override
         public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG;
+            return AnalogComplicationConfigRecyclerViewAdapter.Companion.getTYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG();
         }
     }
 }
