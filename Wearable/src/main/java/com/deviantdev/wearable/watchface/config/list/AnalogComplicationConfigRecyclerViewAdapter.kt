@@ -58,15 +58,13 @@ import java.util.concurrent.Executors
  * All appearance settings are saved via [SharedPreferences].
  * Layouts provided by this adapter are split into 5 main view types.
  */
-class AnalogComplicationConfigRecyclerViewAdapter(private val mContext: Context,
-        watchFaceServiceClass: Class<*>, private val mSettingsDataSet: ArrayList<ConfigItemType>) :
-        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AnalogComplicationConfigRecyclerViewAdapter(private val mContext: Context, watchFaceServiceClass: Class<*>,
+        private val mSettingsDataSet: ArrayList<ConfigItemType>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val watchFacePreferences: WatchFacePreferences = WatchFacePreferences(mContext)
 
     // ComponentName associated with watch face service (service that renders watch face). Used to retrieve complication information.
-    private val mWatchFaceComponentName: ComponentName = ComponentName(mContext,
-            watchFaceServiceClass)
+    private val mWatchFaceComponentName: ComponentName = ComponentName(mContext, watchFaceServiceClass)
 
     // Selected complication id by user.
     private var mSelectedComplicationId: Int = 0
@@ -100,26 +98,23 @@ class AnalogComplicationConfigRecyclerViewAdapter(private val mContext: Context,
                 // Need direct reference to watch face preview view holder to update watch face
                 // preview based on selections from the user.
                 mPreviewAndComplicationsViewHolder = PreviewAndComplicationsViewHolder(
-                        LayoutInflater.from(parent.context).inflate(
-                                R.layout.config_list_preview_and_complications_item, parent, false))
+                        LayoutInflater.from(parent.context).inflate(R.layout.config_list_preview_and_complications_item,
+                                parent, false))
                 viewHolder = mPreviewAndComplicationsViewHolder
             }
 
             TYPE_MORE_OPTIONS -> viewHolder = MoreOptionsViewHolder(
-                    LayoutInflater.from(parent.context).inflate(
-                            R.layout.config_list_more_options_item, parent, false))
+                    LayoutInflater.from(parent.context).inflate(R.layout.config_list_more_options_item, parent, false))
 
             TYPE_COLOR_CONFIG -> viewHolder = ColorPickerViewHolder(
-                    LayoutInflater.from(parent.context).inflate(R.layout.config_list_color_item,
-                            parent, false))
+                    LayoutInflater.from(parent.context).inflate(R.layout.config_list_color_item, parent, false))
 
             TYPE_UNREAD_NOTIFICATION_CONFIG -> viewHolder = UnreadNotificationViewHolder(
-                    LayoutInflater.from(parent.context).inflate(
-                            R.layout.config_list_unread_notif_item, parent, false))
+                    LayoutInflater.from(parent.context).inflate(R.layout.config_list_unread_notif_item, parent, false))
 
             TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG -> viewHolder = BackgroundComplicationViewHolder(
-                    LayoutInflater.from(parent.context).inflate(
-                            R.layout.config_list_background_complication_item, parent, false))
+                    LayoutInflater.from(parent.context).inflate(R.layout.config_list_background_complication_item,
+                            parent, false))
         }
 
         return viewHolder
@@ -138,8 +133,7 @@ class AnalogComplicationConfigRecyclerViewAdapter(private val mContext: Context,
                 val previewAndComplicationsConfigItem = configItemType as PreviewAndComplicationsConfigItem
 
                 val defaultComplicationResourceId = previewAndComplicationsConfigItem.defaultComplicationResourceId
-                previewAndComplicationsViewHolder.setDefaultComplicationDrawable(
-                        defaultComplicationResourceId)
+                previewAndComplicationsViewHolder.setDefaultComplicationDrawable(defaultComplicationResourceId)
 
                 previewAndComplicationsViewHolder.initializesColorsAndComplications()
             }
@@ -233,20 +227,14 @@ class AnalogComplicationConfigRecyclerViewAdapter(private val mContext: Context,
      * Displays watch face preview along with complication locations. Allows user to tap on the
      * complication they want to change and preview updates dynamically.
      */
-    inner class PreviewAndComplicationsViewHolder(view: View) : RecyclerView.ViewHolder(view),
-            OnClickListener {
+    inner class PreviewAndComplicationsViewHolder(view: View) : RecyclerView.ViewHolder(view), OnClickListener {
 
-        private val mWatchFaceArmsAndTicksView: View = view.findViewById(
-                R.id.watch_face_arms_and_ticks)
-        private val mWatchFaceHighlightPreviewView: View = view.findViewById(
-                R.id.watch_face_highlight)
-        private val mWatchFaceBackgroundPreviewImageView: ImageView = view.findViewById(
-                R.id.watch_face_background)
+        private val mWatchFaceArmsAndTicksView: View = view.findViewById(R.id.watch_face_arms_and_ticks)
+        private val mWatchFaceHighlightPreviewView: View = view.findViewById(R.id.watch_face_highlight)
+        private val mWatchFaceBackgroundPreviewImageView: ImageView = view.findViewById(R.id.watch_face_background)
 
-        private val mLeftComplicationBackground: ImageView = view.findViewById(
-                R.id.left_complication_background)
-        private val mRightComplicationBackground: ImageView = view.findViewById(
-                R.id.right_complication_background)
+        private val mLeftComplicationBackground: ImageView = view.findViewById(R.id.left_complication_background)
+        private val mRightComplicationBackground: ImageView = view.findViewById(R.id.right_complication_background)
 
         private val mLeftComplication: ImageButton = view.findViewById(R.id.left_complication)
         private val mRightComplication: ImageButton = view.findViewById(R.id.right_complication)
@@ -279,8 +267,8 @@ class AnalogComplicationConfigRecyclerViewAdapter(private val mContext: Context,
             // Only update background colors for preview if background complications are disabled.
             if (!mBackgroundComplicationEnabled) {
 
-                val backgroundColorFilter = PorterDuffColorFilter(
-                        watchFacePreferences.backgroundColor, PorterDuff.Mode.SRC_ATOP)
+                val backgroundColorFilter = PorterDuffColorFilter(watchFacePreferences.backgroundColor,
+                        PorterDuff.Mode.SRC_ATOP)
 
                 mWatchFaceBackgroundPreviewImageView.background.colorFilter = backgroundColorFilter
 
@@ -294,16 +282,15 @@ class AnalogComplicationConfigRecyclerViewAdapter(private val mContext: Context,
             }
 
             // Updates highlight color (just second arm).
-            val highlightColorFilter = PorterDuffColorFilter(
-                    watchFacePreferences.watchHandHighlightColor, PorterDuff.Mode.SRC_ATOP)
+            val highlightColorFilter = PorterDuffColorFilter(watchFacePreferences.watchHandHighlightColor,
+                    PorterDuff.Mode.SRC_ATOP)
 
             mWatchFaceHighlightPreviewView.background.colorFilter = highlightColorFilter
         }
 
         // Verifies the watch face supports the complication location, then launches the helper
         // class, so user can choose their complication data provider.
-        private fun launchComplicationHelperActivity(currentActivity: Activity,
-                complication: Complication) {
+        private fun launchComplicationHelperActivity(currentActivity: Activity, complication: Complication) {
 
             mSelectedComplicationId = complication.id
 
@@ -312,8 +299,8 @@ class AnalogComplicationConfigRecyclerViewAdapter(private val mContext: Context,
             val watchFace = ComponentName(currentActivity, WatchFaceService::class.java)
 
             currentActivity.startActivityForResult(
-                    ComplicationHelperActivity.createProviderChooserHelperIntent(currentActivity,
-                            watchFace, complication.id, *complication.supportedTypes),
+                    ComplicationHelperActivity.createProviderChooserHelperIntent(currentActivity, watchFace,
+                            complication.id, *complication.supportedTypes),
                     AnalogComplicationConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE)
 
         }
@@ -340,38 +327,33 @@ class AnalogComplicationConfigRecyclerViewAdapter(private val mContext: Context,
 
                     // Since we can't get the background complication image outside of the
                     // watch face, we set the icon for that provider instead with a gray background.
-                    val backgroundColorFilter = PorterDuffColorFilter(Color.GRAY,
-                            PorterDuff.Mode.SRC_ATOP)
+                    val backgroundColorFilter = PorterDuffColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP)
 
                     mWatchFaceBackgroundPreviewImageView.background.colorFilter = backgroundColorFilter
-                    mWatchFaceBackgroundPreviewImageView.setImageIcon(
-                            complicationProviderInfo.providerIcon)
+                    mWatchFaceBackgroundPreviewImageView.setImageIcon(complicationProviderInfo.providerIcon)
 
                 } else {
                     mBackgroundComplicationEnabled = false
 
                     // Clears icon for background if it was present before.
-                    mWatchFaceBackgroundPreviewImageView.setImageResource(
-                            android.R.color.transparent)
+                    mWatchFaceBackgroundPreviewImageView.setImageResource(android.R.color.transparent)
 
-                    val backgroundColorFilter = PorterDuffColorFilter(
-                            watchFacePreferences.backgroundColor, PorterDuff.Mode.SRC_ATOP)
+                    val backgroundColorFilter = PorterDuffColorFilter(watchFacePreferences.backgroundColor,
+                            PorterDuff.Mode.SRC_ATOP)
 
                     mWatchFaceBackgroundPreviewImageView.background.colorFilter = backgroundColorFilter
                 }
 
             } else if (watchFaceComplicationId == Complication.LEFT.id) {
-                updateComplicationView(complicationProviderInfo, mLeftComplication,
-                        mLeftComplicationBackground)
+                updateComplicationView(complicationProviderInfo, mLeftComplication, mLeftComplicationBackground)
 
             } else if (watchFaceComplicationId == Complication.RIGHT.id) {
-                updateComplicationView(complicationProviderInfo, mRightComplication,
-                        mRightComplicationBackground)
+                updateComplicationView(complicationProviderInfo, mRightComplication, mRightComplicationBackground)
             }
         }
 
-        private fun updateComplicationView(complicationProviderInfo: ComplicationProviderInfo?,
-                button: ImageButton, background: ImageView) {
+        private fun updateComplicationView(complicationProviderInfo: ComplicationProviderInfo?, button: ImageButton,
+                background: ImageView) {
             if (complicationProviderInfo != null) {
                 button.setImageIcon(complicationProviderInfo.providerIcon)
                 button.contentDescription = mContext.getString(R.string.edit_complication,
@@ -387,8 +369,8 @@ class AnalogComplicationConfigRecyclerViewAdapter(private val mContext: Context,
         internal fun initializesColorsAndComplications() {
 
             // Initializes highlight color (just second arm and part of complications).
-            val highlightColorFilter = PorterDuffColorFilter(
-                    watchFacePreferences.watchHandHighlightColor, PorterDuff.Mode.SRC_ATOP)
+            val highlightColorFilter = PorterDuffColorFilter(watchFacePreferences.watchHandHighlightColor,
+                    PorterDuff.Mode.SRC_ATOP)
 
             mWatchFaceHighlightPreviewView.background.colorFilter = highlightColorFilter
 

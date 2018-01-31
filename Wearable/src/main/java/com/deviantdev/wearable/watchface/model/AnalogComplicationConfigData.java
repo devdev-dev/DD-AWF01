@@ -22,9 +22,9 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 
 import com.deviantdev.wearable.watchface.R;
 import com.deviantdev.wearable.watchface.WatchFaceService;
+import com.deviantdev.wearable.watchface.config.color.ColorSelectionActivity;
 import com.deviantdev.wearable.watchface.config.list.AnalogComplicationConfigActivity;
 import com.deviantdev.wearable.watchface.config.list.AnalogComplicationConfigRecyclerViewAdapter;
-import com.deviantdev.wearable.watchface.config.color.ColorSelectionActivity;
 
 import java.util.ArrayList;
 
@@ -86,13 +86,11 @@ public class AnalogComplicationConfigData {
         ArrayList<ConfigItemType> settingsConfigData = new ArrayList<>();
 
         // Data for watch face preview and complications UX in settings Activity.
-        ConfigItemType complicationConfigItem = new PreviewAndComplicationsConfigItem(
-                R.drawable.add_complication);
+        ConfigItemType complicationConfigItem = new PreviewAndComplicationsConfigItem(R.drawable.add_complication);
         settingsConfigData.add(complicationConfigItem);
 
         // Data for "more options" UX in settings Activity.
-        ConfigItemType moreOptionsConfigItem = new MoreOptionsConfigItem(
-                R.drawable.ic_expand_more_white_18dp);
+        ConfigItemType moreOptionsConfigItem = new MoreOptionsConfigItem(R.drawable.ic_expand_more_white_18dp);
         settingsConfigData.add(moreOptionsConfigItem);
 
         // Data for highlight/marker (second hand) color UX in settings Activity.
@@ -109,8 +107,8 @@ public class AnalogComplicationConfigData {
 
         // Data for 'Unread Notifications' UX (toggle) in settings Activity.
         ConfigItemType unreadNotificationsConfigItem = new UnreadNotificationConfigItem(
-                context.getString(R.string.config_unread_notifications_label),
-                R.drawable.ic_notifications_white_24dp, R.drawable.ic_notifications_off_white_24dp);
+                context.getString(R.string.config_unread_notifications_label), R.drawable.ic_notifications_white_24dp,
+                R.drawable.ic_notifications_off_white_24dp);
         settingsConfigData.add(unreadNotificationsConfigItem);
 
         // Data for background complications UX in settings Activity.
@@ -216,8 +214,7 @@ public class AnalogComplicationConfigData {
         private int iconEnabledResourceId;
         private int iconDisabledResourceId;
 
-        UnreadNotificationConfigItem(String name, int iconEnabledResourceId,
-                int iconDisabledResourceId) {
+        UnreadNotificationConfigItem(String name, int iconEnabledResourceId, int iconDisabledResourceId) {
             this.name = name;
             this.iconEnabledResourceId = iconEnabledResourceId;
             this.iconDisabledResourceId = iconDisabledResourceId;

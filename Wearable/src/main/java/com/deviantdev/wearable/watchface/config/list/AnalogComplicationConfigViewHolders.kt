@@ -50,8 +50,7 @@ class ColorPickerViewHolder(view: View) : RecyclerView.ViewHolder(view), View.On
 
     fun setIcon(resourceId: Int) {
         val context = mAppearanceButton.context
-        mAppearanceButton.setCompoundDrawablesWithIntrinsicBounds(context.getDrawable(resourceId),
-                null, null, null)
+        mAppearanceButton.setCompoundDrawablesWithIntrinsicBounds(context.getDrawable(resourceId), null, null, null)
     }
 
     fun setLaunchActivityToSelectColor(activity: Class<ColorSelectionActivity>) {
@@ -80,11 +79,9 @@ class ColorPickerViewHolder(view: View) : RecyclerView.ViewHolder(view), View.On
  * Displays switch to indicate whether or not icon appears for unread notifications. User can
  * toggle on/off.
  */
-class UnreadNotificationViewHolder(view: View) : RecyclerView.ViewHolder(view),
-        View.OnClickListener {
+class UnreadNotificationViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
-    private val mUnreadNotificationSwitch: Switch = view.findViewById(
-            R.id.unread_notification_switch)
+    private val mUnreadNotificationSwitch: Switch = view.findViewById(R.id.unread_notification_switch)
 
     private var mEnabledIconResourceId: Int = 0
     private var mDisabledIconResourceId: Int = 0
@@ -105,16 +102,16 @@ class UnreadNotificationViewHolder(view: View) : RecyclerView.ViewHolder(view),
         val context = mUnreadNotificationSwitch.context
 
         // Set default to enabled.
-        mUnreadNotificationSwitch.setCompoundDrawablesWithIntrinsicBounds(
-                context.getDrawable(mEnabledIconResourceId), null, null, null)
+        mUnreadNotificationSwitch.setCompoundDrawablesWithIntrinsicBounds(context.getDrawable(mEnabledIconResourceId),
+                null, null, null)
     }
 
     private fun updateIcon(context: Context, currentState: Boolean?) {
         val currentIconResourceId: Int = if (currentState!!) mEnabledIconResourceId else mDisabledIconResourceId
 
         mUnreadNotificationSwitch.isChecked = currentState
-        mUnreadNotificationSwitch.setCompoundDrawablesWithIntrinsicBounds(
-                context.getDrawable(currentIconResourceId), null, null, null)
+        mUnreadNotificationSwitch.setCompoundDrawablesWithIntrinsicBounds(context.getDrawable(currentIconResourceId),
+                null, null, null)
     }
 
     override fun onClick(view: View) {
@@ -138,11 +135,9 @@ class UnreadNotificationViewHolder(view: View) : RecyclerView.ViewHolder(view),
 /**
  * Displays button to trigger background image complication selector.
  */
-class BackgroundComplicationViewHolder(view: View) : RecyclerView.ViewHolder(view),
-        View.OnClickListener {
+class BackgroundComplicationViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
-    private val mBackgroundComplicationButton: Button = view.findViewById(
-            R.id.background_complication_button)
+    private val mBackgroundComplicationButton: Button = view.findViewById(R.id.background_complication_button)
 
     init {
 
@@ -155,8 +150,8 @@ class BackgroundComplicationViewHolder(view: View) : RecyclerView.ViewHolder(vie
 
     fun setIcon(resourceId: Int) {
         val context = mBackgroundComplicationButton.context
-        mBackgroundComplicationButton.setCompoundDrawablesWithIntrinsicBounds(
-                context.getDrawable(resourceId), null, null, null)
+        mBackgroundComplicationButton.setCompoundDrawablesWithIntrinsicBounds(context.getDrawable(resourceId), null,
+                null, null)
     }
 
     override fun onClick(view: View) {
@@ -168,8 +163,8 @@ class BackgroundComplicationViewHolder(view: View) : RecyclerView.ViewHolder(vie
         val watchFace = ComponentName(currentActivity, WatchFaceService::class.java)
 
         currentActivity.startActivityForResult(
-                ComplicationHelperActivity.createProviderChooserHelperIntent(currentActivity,
-                        watchFace, WatchFaceComplicationConfiguration.Complication.BACKGROUND.id,
+                ComplicationHelperActivity.createProviderChooserHelperIntent(currentActivity, watchFace,
+                        WatchFaceComplicationConfiguration.Complication.BACKGROUND.id,
                         *WatchFaceComplicationConfiguration.Complication.BACKGROUND.supportedTypes),
                 AnalogComplicationConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE)
 

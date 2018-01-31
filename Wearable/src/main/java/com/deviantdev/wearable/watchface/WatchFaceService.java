@@ -164,26 +164,19 @@ public class WatchFaceService extends CanvasWatchFaceService {
             // Creates a ComplicationDrawable for each location where the user can render a
             // complication on the watch face. In this watch face, we create one for left, right,
             // and background, but you could add many more.
-            ComplicationDrawable leftComplicationDrawable = new ComplicationDrawable(
-                    getApplicationContext());
+            ComplicationDrawable leftComplicationDrawable = new ComplicationDrawable(getApplicationContext());
 
-            ComplicationDrawable rightComplicationDrawable = new ComplicationDrawable(
-                    getApplicationContext());
+            ComplicationDrawable rightComplicationDrawable = new ComplicationDrawable(getApplicationContext());
 
-            ComplicationDrawable backgroundComplicationDrawable = new ComplicationDrawable(
-                    getApplicationContext());
+            ComplicationDrawable backgroundComplicationDrawable = new ComplicationDrawable(getApplicationContext());
 
             mComplicationDrawableSparseArray = new SparseArray<>(Complication.values().length);
 
-            mComplicationDrawableSparseArray.put(Complication.LEFT.getId(),
-                    leftComplicationDrawable);
-            mComplicationDrawableSparseArray.put(Complication.RIGHT.getId(),
-                    rightComplicationDrawable);
-            mComplicationDrawableSparseArray.put(Complication.BACKGROUND.getId(),
-                    backgroundComplicationDrawable);
+            mComplicationDrawableSparseArray.put(Complication.LEFT.getId(), leftComplicationDrawable);
+            mComplicationDrawableSparseArray.put(Complication.RIGHT.getId(), rightComplicationDrawable);
+            mComplicationDrawableSparseArray.put(Complication.BACKGROUND.getId(), backgroundComplicationDrawable);
 
-            setComplicationsActiveAndAmbientColors(
-                    watchFacePreferences.getWatchHandHighlightColor());
+            setComplicationsActiveAndAmbientColors(watchFacePreferences.getWatchHandHighlightColor());
             setActiveComplications(Complication.Companion.getAllIds());
         }
 
@@ -277,16 +270,14 @@ public class WatchFaceService extends CanvasWatchFaceService {
          * Called when there is updated data for a complication id.
          */
         @Override
-        public void onComplicationDataUpdate(int complicationId,
-                ComplicationData complicationData) {
+        public void onComplicationDataUpdate(int complicationId, ComplicationData complicationData) {
             Log.d(TAG, "onComplicationDataUpdate() id: " + complicationId);
 
             // Adds/updates active complication data in the array.
             mActiveComplicationDataSparseArray.put(complicationId, complicationData);
 
             // Updates correct ComplicationDrawable with updated data.
-            ComplicationDrawable complicationDrawable = mComplicationDrawableSparseArray.get(
-                    complicationId);
+            ComplicationDrawable complicationDrawable = mComplicationDrawableSparseArray.get(complicationId);
             complicationDrawable.setComplicationData(complicationData);
 
             invalidate();
@@ -365,8 +356,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
                 mMinutePaint.setColor(mWatchHandAndComplicationsColor);
                 mTickAndCirclePaint.setColor(mWatchHandAndComplicationsColor);
 
-                mSecondAndHighlightPaint.setColor(
-                        watchFacePreferences.getWatchHandHighlightColor());
+                mSecondAndHighlightPaint.setColor(watchFacePreferences.getWatchHandHighlightColor());
 
                 mHourPaint.setAntiAlias(true);
                 mMinutePaint.setAntiAlias(true);
@@ -432,8 +422,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
 
             Rect leftBounds =
                     // Left, Top, Right, Bottom
-                    new Rect(horizontalOffset, verticalOffset,
-                            (horizontalOffset + sizeOfComplication),
+                    new Rect(horizontalOffset, verticalOffset, (horizontalOffset + sizeOfComplication),
                             (verticalOffset + sizeOfComplication));
 
             ComplicationDrawable leftComplicationDrawable = mComplicationDrawableSparseArray.get(
@@ -525,16 +514,15 @@ public class WatchFaceService extends CanvasWatchFaceService {
                 float innerY = (float) -Math.cos(tickRot) * innerTickRadius;
                 float outerX = (float) Math.sin(tickRot) * outerTickRadius;
                 float outerY = (float) -Math.cos(tickRot) * outerTickRadius;
-                canvas.drawLine(mCenterX + innerX, mCenterY + innerY, mCenterX + outerX,
-                        mCenterY + outerY, mTickAndCirclePaint);
+                canvas.drawLine(mCenterX + innerX, mCenterY + innerY, mCenterX + outerX, mCenterY + outerY,
+                        mTickAndCirclePaint);
             }
 
             /*
              * These calculations reflect the rotation in degrees per unit of time, e.g.,
              * 360 / 60 = 6 and 360 / 12 = 30.
              */
-            final float seconds = (mCalendar.get(Calendar.SECOND) + mCalendar.get(
-                    Calendar.MILLISECOND) / 1000f);
+            final float seconds = (mCalendar.get(Calendar.SECOND) + mCalendar.get(Calendar.MILLISECOND) / 1000f);
             final float secondsRotation = seconds * 6f;
 
             final float minutesRotation = mCalendar.get(Calendar.MINUTE) * 6f;
@@ -548,12 +536,12 @@ public class WatchFaceService extends CanvasWatchFaceService {
             canvas.save();
 
             canvas.rotate(hoursRotation, mCenterX, mCenterY);
-            canvas.drawLine(mCenterX, mCenterY - CENTER_GAP_AND_CIRCLE_RADIUS, mCenterX,
-                    mCenterY - mHourHandLength, mHourPaint);
+            canvas.drawLine(mCenterX, mCenterY - CENTER_GAP_AND_CIRCLE_RADIUS, mCenterX, mCenterY - mHourHandLength,
+                    mHourPaint);
 
             canvas.rotate(minutesRotation - hoursRotation, mCenterX, mCenterY);
-            canvas.drawLine(mCenterX, mCenterY - CENTER_GAP_AND_CIRCLE_RADIUS, mCenterX,
-                    mCenterY - mMinuteHandLength, mMinutePaint);
+            canvas.drawLine(mCenterX, mCenterY - CENTER_GAP_AND_CIRCLE_RADIUS, mCenterX, mCenterY - mMinuteHandLength,
+                    mMinutePaint);
 
             /*
              * Ensure the "seconds" hand is drawn only when we are in interactive mode.
@@ -564,8 +552,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
                 canvas.drawLine(mCenterX, mCenterY - CENTER_GAP_AND_CIRCLE_RADIUS, mCenterX,
                         mCenterY - mSecondHandLength, mSecondAndHighlightPaint);
             }
-            canvas.drawCircle(mCenterX, mCenterY, CENTER_GAP_AND_CIRCLE_RADIUS,
-                    mTickAndCirclePaint);
+            canvas.drawCircle(mCenterX, mCenterY, CENTER_GAP_AND_CIRCLE_RADIUS, mTickAndCirclePaint);
 
             /* Restore the canvas' original orientation. */
             canvas.restore();
@@ -585,8 +572,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
                 // the active/ambient colors, we only need to update the complications' colors when
                 // the user actually makes a change to the highlight color, not when the watch goes
                 // in and out of ambient mode.
-                setComplicationsActiveAndAmbientColors(
-                        watchFacePreferences.getWatchHandHighlightColor());
+                setComplicationsActiveAndAmbientColors(watchFacePreferences.getWatchHandHighlightColor());
                 updateWatchPaintStyles();
 
                 registerReceiver();

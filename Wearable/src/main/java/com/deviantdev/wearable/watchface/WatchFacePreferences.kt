@@ -18,8 +18,7 @@ class WatchFacePreferences(context: Context) {
     }
 
     fun reloadSavedPreferences(context: Context) {
-        val sharedPreferences = context.getSharedPreferences(PREFERENCE_FILE_KEY,
-                Context.MODE_PRIVATE)
+        val sharedPreferences = context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
 
         backgroundColor = sharedPreferences.getInt(SAVED_BACKGROUND_COLOR, Color.BLACK)
         watchHandHighlightColor = sharedPreferences.getInt(SAVED_MARKERS_COLOR, Color.RED)
@@ -34,8 +33,7 @@ class WatchFacePreferences(context: Context) {
     }
 
     fun commitChangedPreferences(context: Context) {
-        val sharedPreferences = context.getSharedPreferences(PREFERENCE_FILE_KEY,
-                Context.MODE_PRIVATE)
+        val sharedPreferences = context.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE)
         val edit = sharedPreferences.edit()
         edit.putInt(SAVED_BACKGROUND_COLOR, backgroundColor)
         edit.putInt(SAVED_MARKERS_COLOR, watchHandHighlightColor)
